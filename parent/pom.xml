@@ -13,10 +13,11 @@
         <main-class>com.training.weather.api.infrastructure.web.Application</main-class>
         <java.version>1.8</java.version>
         <slf4j.api.version>1.7.25</slf4j.api.version>
-        <ch.qos.logback.version>1.2.2</ch.qos.logback.version>
-        <spring.boot.version>1.5.9.RELEASE</spring.boot.version>
-        <testng.version>6.11</testng.version>
-        <mockito.version>2.7.19</mockito.version>
+        <ch.qos.logback.version>1.2.3</ch.qos.logback.version>
+        <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
+        <jackson.version>2.9.6</jackson.version>
+        <testng.version>6.14.3</testng.version>
+        <mockito.version>2.19.0</mockito.version>
         <maven.checkstyle.plugin>2.17</maven.checkstyle.plugin>
         <maven.compiler.plugin>3.6.1</maven.compiler.plugin>
         <maven.resources.plugin>3.0.1</maven.resources.plugin>
@@ -51,6 +52,11 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${ch.qos.logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-xml</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
             <!-- Test dependencies -->
             <dependency>
