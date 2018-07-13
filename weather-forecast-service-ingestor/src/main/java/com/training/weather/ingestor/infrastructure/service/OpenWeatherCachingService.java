@@ -3,7 +3,6 @@ package com.training.weather.ingestor.infrastructure.service;
 import com.training.weather.ingestor.infrastructure.entity.City;
 import com.training.weather.ingestor.infrastructure.entity.Forecast;
 import com.training.weather.ingestor.infrastructure.entity.OpenWeatherForecastResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,14 +10,26 @@ import java.util.List;
 @Service
 public class OpenWeatherCachingService {
 
-  @Autowired
-  private OpenWeatherService openWeatherService;
+  private final OpenWeatherService openWeatherService;
 
-  @Autowired
-  private WeatherForecastRedisService weatherForecastRedisService;
+  private final WeatherForecastRedisService weatherForecastRedisService;
 
-  @Autowired
-  private List<City> cities;
+  private final List<City> cities;
+
+  /**
+   * Constructor.
+   * @param openWeatherService OpenWeatherService
+   * @param weatherForecastRedisService WeatherForecastRedisService
+   * @param cities List&ltCity&gt
+   */
+  public OpenWeatherCachingService(
+          OpenWeatherService openWeatherService,
+          WeatherForecastRedisService weatherForecastRedisService,
+          List<City> cities) {
+    this.openWeatherService = openWeatherService;
+    this.weatherForecastRedisService = weatherForecastRedisService;
+    this.cities = cities;
+  }
 
   /**
    * Method for retrieving weather forecasts from OpenWeather API and storing it to Redis.

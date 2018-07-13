@@ -2,17 +2,18 @@ package com.training.weather.ingestor.infrastructure.job;
 
 import com.training.weather.ingestor.infrastructure.service.OpenWeatherCachingService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 
 @Component
 public class OpenWeatherCachingJob {
   private static final Logger LOG = Logger.getLogger(OpenWeatherCachingJob.class);
 
-  @Autowired
-  private OpenWeatherCachingService openWeatherCachingService;
+  private final OpenWeatherCachingService openWeatherCachingService;
+
+  public OpenWeatherCachingJob(OpenWeatherCachingService openWeatherCachingService) {
+    this.openWeatherCachingService = openWeatherCachingService;
+  }
 
   /**
    * Scheduled caching job.
