@@ -4,11 +4,7 @@ package com.training.weather.ingestor.infrastructure.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
-@Data
-@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
@@ -25,4 +21,53 @@ public class City {
   private Coordinates coordinates;
   @JsonProperty("country")
   private String country;
+
+  public City() {
+  }
+
+  /**
+   * Constructor.
+   * @param id
+   * @param name
+   * @param coordinates
+   * @param country
+   */
+  public City(Integer id, String name, Coordinates coordinates, String country) {
+    this.id = id;
+    this.name = name;
+    this.coordinates = coordinates;
+    this.country = country;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Coordinates getCoordinates() {
+    return coordinates;
+  }
+
+  public void setCoordinates(Coordinates coordinates) {
+    this.coordinates = coordinates;
+  }
+
+  public String getCountry() {
+    return country;
+  }
+
+  public void setCountry(String country) {
+    this.country = country;
+  }
 }

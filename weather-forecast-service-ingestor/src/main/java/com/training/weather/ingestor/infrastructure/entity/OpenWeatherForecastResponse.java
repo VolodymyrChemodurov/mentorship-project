@@ -4,11 +4,9 @@ package com.training.weather.ingestor.infrastructure.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.Data;
 
 import java.util.List;
 
-@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "cod",
@@ -28,4 +26,47 @@ public class OpenWeatherForecastResponse {
   private List<Forecast> forecasts;
   @JsonProperty("city")
   private City city;
+
+  public OpenWeatherForecastResponse() {
+  }
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
+
+  public Double getMessage() {
+    return message;
+  }
+
+  public void setMessage(Double message) {
+    this.message = message;
+  }
+
+  public Integer getCnt() {
+    return cnt;
+  }
+
+  public void setCnt(Integer cnt) {
+    this.cnt = cnt;
+  }
+
+  public List<Forecast> getForecasts() {
+    return forecasts;
+  }
+
+  public void setForecasts(List<Forecast> forecasts) {
+    this.forecasts = forecasts;
+  }
+
+  public City getCity() {
+    return city;
+  }
+
+  public void setCity(City city) {
+    this.city = city;
+  }
 }

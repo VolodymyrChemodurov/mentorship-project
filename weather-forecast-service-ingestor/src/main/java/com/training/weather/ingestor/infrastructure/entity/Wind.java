@@ -4,9 +4,7 @@ package com.training.weather.ingestor.infrastructure.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.Data;
 
-@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "speed",
@@ -17,4 +15,28 @@ public class Wind {
   private Double speed;
   @JsonProperty("deg")
   private Double deg;
+
+  public Wind() {
+  }
+
+  public Wind(Double speed, Double deg) {
+    this.speed = speed;
+    this.deg = deg;
+  }
+
+  public Double getSpeed() {
+    return speed;
+  }
+
+  public void setSpeed(Double speed) {
+    this.speed = speed;
+  }
+
+  public Double getDeg() {
+    return deg;
+  }
+
+  public void setDeg(Double deg) {
+    this.deg = deg;
+  }
 }
