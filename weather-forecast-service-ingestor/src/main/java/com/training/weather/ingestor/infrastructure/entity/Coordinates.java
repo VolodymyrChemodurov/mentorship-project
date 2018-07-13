@@ -16,9 +16,18 @@ public class Coordinates {
   @JsonProperty("lon")
   private double longitude;
 
+  /**
+   * Creates instance of {@link Coordinates}.
+   */
   public Coordinates() {
+    //Default Constructor.
   }
 
+  /**
+   *  Constructor.
+   * @param latitude double
+   * @param longitude double
+   */
   public Coordinates(double latitude, double longitude) {
     this.latitude = latitude;
     this.longitude = longitude;

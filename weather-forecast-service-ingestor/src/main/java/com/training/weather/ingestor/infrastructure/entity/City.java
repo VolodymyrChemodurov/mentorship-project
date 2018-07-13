@@ -22,15 +22,19 @@ public class City {
   @JsonProperty("country")
   private String country;
 
+  /**
+   * Creates instance of {@link City}.
+   */
   public City() {
+    //Default Constructor.
   }
 
   /**
-   * Constructor.
-   * @param id
-   * @param name
-   * @param coordinates
-   * @param country
+   * Creates instance of {@link City}.
+   * @param id Integer.
+   * @param name String.
+   * @param coordinates Coordinates.
+   * @param country String.
    */
   public City(Integer id, String name, Coordinates coordinates, String country) {
     this.id = id;

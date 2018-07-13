@@ -34,21 +34,32 @@ public class MainParameters {
   @JsonProperty("temp_kf")
   private Integer tempKf;
 
+  /**
+   * Creates instance of {@link MainParameters}.
+   */
   public MainParameters() {
+    //Default Constructor.
   }
 
   /**
    * Constructor.
-   * @param temperature
-   * @param minTemperature
-   * @param maxTemperature
-   * @param pressure
-   * @param seaLevelPressure
-   * @param groundLevelPressure
-   * @param humidity
-   * @param tempKf
+   * @param temperature Double
+   * @param minTemperature Double
+   * @param maxTemperature Double
+   * @param pressure Double
+   * @param seaLevelPressure Double
+   * @param groundLevelPressure Double
+   * @param humidity Integer
+   * @param tempKf Integer
    */
-  public MainParameters(Double temperature, Double minTemperature, Double maxTemperature, Double pressure, Double seaLevelPressure, Double groundLevelPressure, Integer humidity, Integer tempKf) {
+  public MainParameters(Double temperature,
+                        Double minTemperature,
+                        Double maxTemperature,
+                        Double pressure,
+                        Double seaLevelPressure,
+                        Double groundLevelPressure,
+                        Integer humidity,
+                        Integer tempKf) {
     this.temperature = temperature;
     this.minTemperature = minTemperature;
     this.maxTemperature = maxTemperature;

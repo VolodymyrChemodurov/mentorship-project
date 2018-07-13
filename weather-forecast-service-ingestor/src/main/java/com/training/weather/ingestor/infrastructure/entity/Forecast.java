@@ -36,14 +36,18 @@ public class Forecast {
   @JsonProperty("dt_txt")
   private String date;
 
+  /**
+   * Creates instance of {@link Forecast}.
+   */
   public Forecast() {
+    //Default Constructor.
   }
 
   /**
    * Constructor.
    * @param timestamp Integer
    * @param mainParameters MainParameters
-   * @param weather List<Weather>
+   * @param weather List&ltWeather&gt
    * @param clouds Clouds
    * @param wind Wind
    * @param rain Rain

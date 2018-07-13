@@ -13,7 +13,11 @@ public class Clouds {
   @JsonProperty("all")
   private Integer all;
 
+  /**
+   * Creates instance of {@link Clouds}.
+   */
   public Clouds() {
+    //Default Constructor.
   }
 
   public Clouds(Integer all) {

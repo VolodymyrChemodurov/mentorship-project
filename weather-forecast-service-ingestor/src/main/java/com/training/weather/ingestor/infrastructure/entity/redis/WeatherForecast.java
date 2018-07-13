@@ -19,14 +19,19 @@ public class WeatherForecast implements Serializable {
   @GeoIndexed
   private Point point;
 
+  /**
+   * Creates instance of {@link WeatherForecast}.
+   */
   public WeatherForecast() {
+    //Default Constructor.
   }
 
   /**
    * Constructor.
-   * @param forecast
-   * @param city
-   * @param point
+   *
+   * @param forecast Forecast
+   * @param city     String
+   * @param point    Point
    */
   public WeatherForecast(Forecast forecast, String city, Point point) {
     this.forecast = forecast;
@@ -36,10 +41,11 @@ public class WeatherForecast implements Serializable {
 
   /**
    * Constructor.
-   * @param id
-   * @param forecast
-   * @param city
-   * @param point
+   *
+   * @param id       String
+   * @param forecast Forecast
+   * @param city     String
+   * @param point    Point
    */
   public WeatherForecast(String id, Forecast forecast, String city, Point point) {
     this.id = id;

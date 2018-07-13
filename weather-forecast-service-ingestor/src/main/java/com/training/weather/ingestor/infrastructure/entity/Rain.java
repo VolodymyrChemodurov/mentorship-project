@@ -12,7 +12,11 @@ public class Rain {
   @JsonProperty("3h")
   private double volume;
 
+  /**
+   * Creates instance of {@link Rain}.
+   */
   public Rain() {
+    //Default Constructor.
   }
 
   public Rain(double volume) {

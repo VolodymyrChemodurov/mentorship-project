@@ -11,7 +11,11 @@ public class Snow {
   @JsonProperty("3h")
   private String volume;
 
+  /**
+   * Creates instance of {@link Snow}.
+   */
   public Snow() {
+    //Default Constructor.
   }
 
   public Snow(String volume) {

@@ -16,7 +16,11 @@ public class Wind {
   @JsonProperty("deg")
   private Double deg;
 
+  /**
+   * Creates instance of {@link Wind}.
+   */
   public Wind() {
+    //Default Constructor.
   }
 
   public Wind(Double speed, Double deg) {

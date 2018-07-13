@@ -14,13 +14,10 @@
         <java.version>1.8</java.version>
         <slf4j.api.version>1.7.25</slf4j.api.version>
         <log4j.version>1.2.17</log4j.version>
-        <ch.qos.logback.version>1.2.3</ch.qos.logback.version>
         <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
         <jackson.version>2.9.6</jackson.version>
-        <testng.version>6.14.3</testng.version>
         <mockito.version>2.19.0</mockito.version>
         <io.lettuce.version>5.0.4.RELEASE</io.lettuce.version>
-        <org.project.lombok.version>1.16.8</org.project.lombok.version>
         <junit.version>4.12</junit.version>
         <maven.checkstyle.plugin>2.17</maven.checkstyle.plugin>
         <maven.compiler.plugin>3.6.1</maven.compiler.plugin>
@@ -31,7 +28,6 @@
         <maven.enforcer.plugin>1.4.1</maven.enforcer.plugin>
         <maven.restrict.imports.plugin>0.8.0</maven.restrict.imports.plugin>
         <maven.version.range>[3.0.5,3.5.0]</maven.version.range>
-        <maven.wildfly.plugin>1.2.1.Final</maven.wildfly.plugin>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     </properties>
@@ -72,30 +68,14 @@
                 <version>${log4j.version}</version>
             </dependency>
             <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${ch.qos.logback.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>io.lettuce</groupId>
                 <artifactId>lettuce-core</artifactId>
                 <version>${io.lettuce.version}</version>
             </dependency>
             <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${ch.qos.logback.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
                 <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${org.project.lombok.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <!-- Test dependencies -->
@@ -103,12 +83,6 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.testng</groupId>
-                <artifactId>testng</artifactId>
-                <version>${testng.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -286,43 +260,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.version}</version>
             </plugin>
-
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${maven.wildfly.plugin}</version>
-                <configuration>
-                    <hostname>${jboss.server}</hostname>
-                    <port>${jboss.port}</port>
-                    <username>${jboss.username}</username>
-                    <password>${jboss.password}</password>
-                    <force>false</force>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>deploy</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>deploy-only</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>local</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <jboss.server>localhost</jboss.server>
-                <jboss.port>9990</jboss.port>
-                <jboss.username>admin</jboss.username>
-                <jboss.password>admin</jboss.password>
-            </properties>
-        </profile>
-    </profiles>
 </project>

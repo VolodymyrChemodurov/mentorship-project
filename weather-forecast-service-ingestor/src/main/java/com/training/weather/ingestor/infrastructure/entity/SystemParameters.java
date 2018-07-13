@@ -13,7 +13,11 @@ public class SystemParameters {
   @JsonProperty("pod")
   private String pod;
 
+  /**
+   * Creates instance of {@link SystemParameters}.
+   */
   public SystemParameters() {
+    //Default Constructor.
   }
 
   public SystemParameters(String pod) {

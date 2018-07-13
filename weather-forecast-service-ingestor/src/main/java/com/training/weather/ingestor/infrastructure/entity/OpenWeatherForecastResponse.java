@@ -27,9 +27,6 @@ public class OpenWeatherForecastResponse {
   @JsonProperty("city")
   private City city;
 
-  public OpenWeatherForecastResponse() {
-  }
-
   public String getCode() {
     return code;
   }

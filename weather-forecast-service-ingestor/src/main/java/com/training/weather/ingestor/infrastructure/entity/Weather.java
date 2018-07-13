@@ -22,7 +22,11 @@ public class Weather {
   @JsonProperty("icon")
   private String icon;
 
+  /**
+   * Creates instance of {@link Weather}.
+   */
   public Weather() {
+    //Default Constructor.
   }
 
   /**

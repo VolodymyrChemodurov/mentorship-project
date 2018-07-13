@@ -13,7 +13,11 @@ public class WeatherForecastKey implements Serializable {
   @GeoIndexed
   private Point point;
 
+  /**
+   * Creates instance of {@link WeatherForecastKey}.
+   */
   public WeatherForecastKey() {
+    //Default Constructor.
   }
 
   public WeatherForecastKey(String city, Point point) {
