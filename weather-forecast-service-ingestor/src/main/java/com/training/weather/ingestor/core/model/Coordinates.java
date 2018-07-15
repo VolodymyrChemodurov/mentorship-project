@@ -1,19 +1,10 @@
 
-package com.training.weather.ingestor.infrastructure.entity;
+package com.training.weather.ingestor.core.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "lat",
-        "lon"})
 public class Coordinates {
 
-  @JsonProperty("lat")
   private double latitude;
-  @JsonProperty("lon")
+
   private double longitude;
 
   /**

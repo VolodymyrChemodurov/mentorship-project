@@ -1,43 +1,27 @@
 
-package com.training.weather.ingestor.infrastructure.entity;
+package com.training.weather.ingestor.core.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "id",
-        "name",
-        "coord",
-        "country"})
 public class City {
 
-  @JsonProperty("id")
   private Integer id;
-  @JsonProperty("name")
   private String name;
-  @JsonProperty("coord")
   private Coordinates coordinates;
-  @JsonProperty("country")
   private String country;
 
   /**
-   * Creates instance of {@link City}.
+   * Constructor.
    */
   public City() {
-    //Default Constructor.
+    //DefaultConstructor.
   }
 
   /**
-   * Creates instance of {@link City}.
-   * @param id Integer.
-   * @param name String.
-   * @param coordinates Coordinates.
-   * @param country String.
+   * Constructor for {@link City}
+   * @param name String
+   * @param coordinates Coordinates
+   * @param country String
    */
-  public City(Integer id, String name, Coordinates coordinates, String country) {
-    this.id = id;
+  public City(String name, Coordinates coordinates, String country) {
     this.name = name;
     this.coordinates = coordinates;
     this.country = country;
