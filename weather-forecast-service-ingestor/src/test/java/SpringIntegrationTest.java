@@ -1,5 +1,5 @@
 import com.training.weather.ingestor.infrastructure.config.ApplicationConfig;
-import com.training.weather.ingestor.infrastructure.service.OpenWeatherService;
+import com.training.weather.ingestor.infrastructure.service.OpenWeatherMapDataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class SpringIntegrationTest {
 
   @Autowired
-  private OpenWeatherService openWeatherService;
+  private OpenWeatherMapDataSource openWeatherMapDataSource;
 
   @Test
   public void test() {

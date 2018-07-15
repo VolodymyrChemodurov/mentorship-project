@@ -1,7 +1,8 @@
 package com.training.weather.ingestor.infrastructure.service;
 
-import com.training.weather.ingestor.infrastructure.entity.City;
-import com.training.weather.ingestor.infrastructure.entity.Forecast;
+import com.training.weather.ingestor.core.model.City;
+import com.training.weather.ingestor.core.model.Coordinates;
+import com.training.weather.ingestor.core.model.Forecast;
 import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecast;
 import com.training.weather.ingestor.infrastructure.repository.WeatherForecastRedisRepository;
 import org.apache.log4j.Logger;
@@ -14,7 +15,8 @@ public class WeatherForecastRedisService {
 
   private final WeatherForecastRedisRepository weatherForecastRedisRepository;
 
-  public WeatherForecastRedisService(WeatherForecastRedisRepository weatherForecastRedisRepository) {
+  public WeatherForecastRedisService(
+          WeatherForecastRedisRepository weatherForecastRedisRepository) {
     this.weatherForecastRedisRepository = weatherForecastRedisRepository;
   }
 
@@ -23,11 +25,13 @@ public class WeatherForecastRedisService {
    */
 
   public void save(Forecast forecast, City city) {
-    double lat = city.getCoordinates().getLatitude();
-    double lon = city.getCoordinates().getLongitude();
+    Coordinates coordinates = city.getCoordinates();
+
+    double lat = coordinates.getLatitude();
+    double lon = coordinates.getLongitude();
 
     Point point = new Point(lat, lon);
-    WeatherForecast weatherForecast = new WeatherForecast(null, forecast, city.getName(), point);
+    WeatherForecast weatherForecast = new WeatherForecast(forecast, city.getName(), point);
 
     weatherForecastRedisRepository.save(weatherForecast);
 
