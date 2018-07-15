@@ -1,6 +1,6 @@
 package com.training.weather.ingestor.infrastructure.entity.redis;
 
-import com.training.weather.ingestor.infrastructure.entity.Forecast;
+import com.training.weather.ingestor.core.model.Forecast;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
 import org.springframework.data.redis.core.RedisHash;
