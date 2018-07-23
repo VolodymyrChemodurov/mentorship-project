@@ -1,6 +1,8 @@
 package com.training.weather.ingestor.core.model;
 
-public class MainParameters {
+import java.io.Serializable;
+
+public class MainParameters implements Serializable {
 
   private Double temperature;
   private Double minTemperature;
@@ -26,7 +28,6 @@ public class MainParameters {
    * @param seaLevelPressure Double
    * @param groundLevelPressure Double
    * @param humidity Integer
-   * @param tempKf Integer
    */
   public MainParameters(Double temperature,
                         Double minTemperature,
@@ -34,8 +35,7 @@ public class MainParameters {
                         Double pressure,
                         Double seaLevelPressure,
                         Double groundLevelPressure,
-                        Integer humidity,
-                        Integer tempKf) {
+                        Integer humidity) {
     this.temperature = temperature;
     this.minTemperature = minTemperature;
     this.maxTemperature = maxTemperature;

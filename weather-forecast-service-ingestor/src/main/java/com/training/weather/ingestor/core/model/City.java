@@ -9,14 +9,14 @@ public class City {
   private String country;
 
   /**
-   * Constructor.
+   * Constructor for {@link City}.
    */
   public City() {
     //DefaultConstructor.
   }
 
   /**
-   * Constructor for {@link City}
+   * Constructor for {@link City}.
    * @param name String
    * @param coordinates Coordinates
    * @param country String

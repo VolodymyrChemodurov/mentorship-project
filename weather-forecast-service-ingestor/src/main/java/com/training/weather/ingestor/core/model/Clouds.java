@@ -1,7 +1,9 @@
 
 package com.training.weather.ingestor.core.model;
 
-public class Clouds {
+import java.io.Serializable;
+
+public class Clouds implements Serializable {
 
   private Integer volume;
 

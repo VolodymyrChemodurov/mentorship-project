@@ -8,40 +8,40 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class WeatherForecastCachingFacade {
+public class WeatherForecastCachingFacade implements WeatherCachingFacade {
 
-  private final OpenWeatherMapDataSource openWeatherMapDataSource;
+  private final WeatherDataSource weatherDataSource;
 
-  private final WeatherForecastRedisService weatherForecastRedisService;
+  private final WeatherForecastService weatherForecastService;
 
   private final List<City> cities;
 
   /**
    * Constructor.
    *
-   * @param openWeatherMapDataSource    OpenWeatherMapDataSource
-   * @param weatherForecastRedisService WeatherForecastRedisService
-   * @param cities                      List&ltCity&gt
+   * @param weatherDataSource      weatherDataSource
+   * @param weatherForecastService WeatherForecastRedisService
+   * @param cities                 List&ltCity&gt
    */
   public WeatherForecastCachingFacade(
-          OpenWeatherMapDataSource openWeatherMapDataSource,
-          WeatherForecastRedisService weatherForecastRedisService,
+          WeatherDataSource weatherDataSource,
+          WeatherForecastService weatherForecastService,
           List<City> cities) {
-    this.openWeatherMapDataSource = openWeatherMapDataSource;
-    this.weatherForecastRedisService = weatherForecastRedisService;
+    this.weatherDataSource = weatherDataSource;
+    this.weatherForecastService = weatherForecastService;
     this.cities = cities;
   }
 
   /**
    * Method for retrieving weather forecasts from OpenWeather API and storing it to Redis.
    */
-  public void cacheWeatherForecasts() {
+  public void cache() {
     cities.forEach((city) -> {
-      OpenWeatherMapResponse response = openWeatherMapDataSource.getForecasts(city.getCoordinates());
+      OpenWeatherMapResponse response = weatherDataSource.getForecasts(city.getCoordinates());
 
       List<Forecast> forecasts = response.getForecasts();
 
-      forecasts.forEach((forecast) -> weatherForecastRedisService.save(forecast, city));
+      forecasts.forEach((forecast) -> weatherForecastService.save(forecast, city));
     });
   }
 }

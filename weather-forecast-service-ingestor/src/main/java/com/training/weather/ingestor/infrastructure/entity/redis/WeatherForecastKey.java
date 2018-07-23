@@ -1,43 +1,28 @@
 package com.training.weather.ingestor.infrastructure.entity.redis;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.geo.Point;
-import org.springframework.data.redis.core.index.GeoIndexed;
-import org.springframework.data.redis.core.index.Indexed;
+import com.training.weather.ingestor.core.model.Coordinates;
 
 import java.io.Serializable;
 
 public class WeatherForecastKey implements Serializable {
-  @Id @Indexed
-  private String city;
-  @GeoIndexed
-  private Point point;
 
-  /**
-   * Creates instance of {@link WeatherForecastKey}.
-   */
-  public WeatherForecastKey() {
-    //Default Constructor.
+  private int timestamp;
+
+  private Coordinates coordinates;
+
+  public int getTimestamp() {
+    return timestamp;
   }
 
-  public WeatherForecastKey(String city, Point point) {
-    this.city = city;
-    this.point = point;
+  public void setTimestamp(int timestamp) {
+    this.timestamp = timestamp;
   }
 
-  public String getCity() {
-    return city;
+  public Coordinates getCoordinates() {
+    return coordinates;
   }
 
-  public void setCity(String city) {
-    this.city = city;
-  }
-
-  public Point getPoint() {
-    return point;
-  }
-
-  public void setPoint(Point point) {
-    this.point = point;
+  public void setCoordinates(Coordinates coordinates) {
+    this.coordinates = coordinates;
   }
 }

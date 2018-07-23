@@ -1,8 +1,32 @@
 package com.training.weather.ingestor.infrastructure.repository;
 
 import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecast;
-import org.springframework.data.repository.CrudRepository;
+import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecastKey;
+import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.sync.RedisCommands;
+import org.springframework.stereotype.Repository;
 
-public interface WeatherForecastRedisRepository extends
-        CrudRepository<WeatherForecast, String> {
+@Repository
+public class WeatherForecastRedisRepository implements WeatherForecastRepository {
+
+  private StatefulRedisConnection<WeatherForecastKey, WeatherForecast> statefulRedisConnection;
+
+  public WeatherForecastRedisRepository(
+          StatefulRedisConnection<WeatherForecastKey, WeatherForecast> statefulRedisConnection) {
+    this.statefulRedisConnection = statefulRedisConnection;
+  }
+
+  /**
+   * Method for storing to Redis.
+   *
+   * @param weatherForecastKey WeatherForecastKey
+   * @param weatherForecast WeatherForecast
+   * @return String
+   */
+  public String save(WeatherForecastKey weatherForecastKey, WeatherForecast weatherForecast) {
+    RedisCommands<WeatherForecastKey, WeatherForecast> redisCommands
+            = statefulRedisConnection.sync();
+
+    return redisCommands.set(weatherForecastKey, weatherForecast);
+  }
 }

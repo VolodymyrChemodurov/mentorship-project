@@ -1,7 +1,9 @@
 
 package com.training.weather.ingestor.core.model;
 
-public class Rain {
+import java.io.Serializable;
+
+public class Rain implements Serializable {
 
   private double volume;
 

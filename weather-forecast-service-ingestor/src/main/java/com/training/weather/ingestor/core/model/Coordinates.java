@@ -1,7 +1,9 @@
 
 package com.training.weather.ingestor.core.model;
 
-public class Coordinates {
+import java.io.Serializable;
+
+public class Coordinates implements Serializable {
 
   private double latitude;
 

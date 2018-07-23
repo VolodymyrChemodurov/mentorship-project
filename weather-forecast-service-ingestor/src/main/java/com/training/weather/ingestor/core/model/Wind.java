@@ -1,7 +1,9 @@
 
 package com.training.weather.ingestor.core.model;
 
-public class Wind {
+import java.io.Serializable;
+
+public class Wind implements Serializable {
 
   private Double speed;
   private Double degree;

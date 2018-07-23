@@ -1,7 +1,9 @@
 
 package com.training.weather.ingestor.core.model;
 
-public class Weather {
+import java.io.Serializable;
+
+public class Weather implements Serializable {
 
   private Integer id;
   private String main;

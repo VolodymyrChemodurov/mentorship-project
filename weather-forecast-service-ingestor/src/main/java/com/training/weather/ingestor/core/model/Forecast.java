@@ -1,8 +1,9 @@
 package com.training.weather.ingestor.core.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Forecast {
+public class Forecast implements Serializable {
   private Integer timestamp;
   private MainParameters mainParameters;
   private List<Weather> weather;

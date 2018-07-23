@@ -2,18 +2,34 @@ package com.training.weather.ingestor.infrastructure.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.training.weather.ingestor.core.model.*;
+import com.training.weather.ingestor.core.model.City;
+import com.training.weather.ingestor.core.model.Clouds;
+import com.training.weather.ingestor.core.model.Coordinates;
+import com.training.weather.ingestor.core.model.Forecast;
+import com.training.weather.ingestor.core.model.MainParameters;
+import com.training.weather.ingestor.core.model.OpenWeatherMapResponse;
+import com.training.weather.ingestor.core.model.Rain;
+import com.training.weather.ingestor.core.model.Snow;
+import com.training.weather.ingestor.core.model.Wind;
 import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecast;
-import com.training.weather.ingestor.infrastructure.util.*;
+import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecastKey;
+import com.training.weather.ingestor.infrastructure.util.CityMixIn;
+import com.training.weather.ingestor.infrastructure.util.CloudsMixIn;
+import com.training.weather.ingestor.infrastructure.util.CoordinatesMixIn;
+import com.training.weather.ingestor.infrastructure.util.ForecastMixIn;
+import com.training.weather.ingestor.infrastructure.util.MainParametersMixIn;
+import com.training.weather.ingestor.infrastructure.util.ObjectCodec;
+import com.training.weather.ingestor.infrastructure.util.OpenWeatherMapResponseMixIn;
+import com.training.weather.ingestor.infrastructure.util.RainMixIn;
+import com.training.weather.ingestor.infrastructure.util.SnowMixIn;
+import com.training.weather.ingestor.infrastructure.util.WindMixIn;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.codec.RedisCodec;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.data.redis.serializer.GenericToStringSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
@@ -83,7 +99,8 @@ public class ApplicationConfig {
           MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter
   ) {
     RestTemplate restTemplate = new RestTemplate();
-    restTemplate.getMessageConverters().removeIf(m -> m.getClass().getName().equals(MappingJackson2HttpMessageConverter.class.getName()));
+    restTemplate.getMessageConverters().removeIf(m -> m.getClass().getName()
+            .equals(MappingJackson2HttpMessageConverter.class.getName()));
     restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
 
     return restTemplate;
@@ -91,6 +108,7 @@ public class ApplicationConfig {
 
   /**
    * Defines list of available cities.
+   *
    * @return {@link List&ltCity&gt}
    */
   @Bean
@@ -102,21 +120,19 @@ public class ApplicationConfig {
   }
 
   @Bean
-  public RedisConnectionFactory connectionFactory() {
-    return new LettuceConnectionFactory();
+  public RedisCodec<WeatherForecastKey, WeatherForecast> redisCodec() {
+    return new ObjectCodec<>();
   }
 
-  /**
-   * Definition of RedisTemplate.
-   */
   @Bean
-  public RedisTemplate<String, WeatherForecast> redisTemplate(
-          RedisConnectionFactory connectionFactory) {
-    RedisTemplate<String, WeatherForecast> redisTemplate = new RedisTemplate<>();
-    redisTemplate.setKeySerializer(new StringRedisSerializer());
-    redisTemplate.setHashValueSerializer(new GenericToStringSerializer<>(WeatherForecast.class));
-    redisTemplate.setValueSerializer(new GenericToStringSerializer<>(WeatherForecast.class));
-    redisTemplate.setConnectionFactory(connectionFactory);
-    return redisTemplate;
+  public RedisClient redisClient() {
+    return RedisClient.create("redis://localhost");
+  }
+
+  @Bean
+  public StatefulRedisConnection<WeatherForecastKey, WeatherForecast> statefulRedisConnection(
+          RedisCodec<WeatherForecastKey, WeatherForecast> redisCodec,
+          RedisClient redisClient) {
+    return redisClient.connect(redisCodec);
   }
 }
