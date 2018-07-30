@@ -1,7 +1,8 @@
 package com.training.weather.ingestor.infrastructure.repository;
 
-import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecast;
-import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecastKey;
+import com.training.weather.ingestor.core.entity.WeatherForecast;
+import com.training.weather.ingestor.core.entity.WeatherForecastKey;
+import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,7 @@ public class WeatherForecastRedisRepository implements WeatherForecastRepository
    * Method for storing to Redis.
    *
    * @param weatherForecastKey WeatherForecastKey
-   * @param weatherForecast WeatherForecast
+   * @param weatherForecast    WeatherForecast
    * @return String
    */
   public String save(WeatherForecastKey weatherForecastKey, WeatherForecast weatherForecast) {
