@@ -1,4 +1,4 @@
-package com.training.weather.ingestor.infrastructure.service;
+package com.training.weather.ingestor.core.service;
 
 import com.training.weather.ingestor.core.model.City;
 import com.training.weather.ingestor.core.model.Forecast;
