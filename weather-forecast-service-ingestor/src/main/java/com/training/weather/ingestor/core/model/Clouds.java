@@ -14,4 +14,11 @@ public class Clouds implements Serializable {
   public void setVolume(Integer volume) {
     this.volume = volume;
   }
+
+  @Override
+  public String toString() {
+    return "Clouds{" +
+            "volume=" + volume +
+            '}';
+  }
 }

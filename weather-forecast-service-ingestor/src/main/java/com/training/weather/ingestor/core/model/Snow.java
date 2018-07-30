@@ -4,13 +4,20 @@ import java.io.Serializable;
 
 public class Snow implements Serializable {
 
-  private String volume;
+  private double volume;
 
-  public String getVolume() {
+  public double getVolume() {
     return volume;
   }
 
-  public void setVolume(String volume) {
+  public void setVolume(double volume) {
     this.volume = volume;
+  }
+
+  @Override
+  public String toString() {
+    return "Snow{" +
+            "volume=" + volume +
+            '}';
   }
 }

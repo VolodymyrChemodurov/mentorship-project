@@ -35,4 +35,12 @@ public class Wind implements Serializable {
   public void setDegree(Double degree) {
     this.degree = degree;
   }
+
+  @Override
+  public String toString() {
+    return "Wind{" +
+            "speed=" + speed +
+            ", degree=" + degree +
+            '}';
+  }
 }

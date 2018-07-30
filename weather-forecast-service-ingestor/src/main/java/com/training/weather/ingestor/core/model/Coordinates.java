@@ -17,7 +17,7 @@ public class Coordinates implements Serializable {
   }
 
   /**
-   *  Constructor.
+   * Constructor.
    * @param latitude double
    * @param longitude double
    */
@@ -40,5 +40,13 @@ public class Coordinates implements Serializable {
 
   public void setLongitude(double longitude) {
     this.longitude = longitude;
+  }
+
+  @Override
+  public String toString() {
+    return "Coordinates{" +
+            "latitude=" + latitude +
+            ", longitude=" + longitude +
+            '}';
   }
 }

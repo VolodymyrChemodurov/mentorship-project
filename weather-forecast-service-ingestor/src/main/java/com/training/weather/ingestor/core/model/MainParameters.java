@@ -100,4 +100,17 @@ public class MainParameters implements Serializable {
   public void setHumidity(Integer humidity) {
     this.humidity = humidity;
   }
+
+  @Override
+  public String toString() {
+    return "MainParameters{" +
+            "temperature=" + temperature +
+            ", minTemperature=" + minTemperature +
+            ", maxTemperature=" + maxTemperature +
+            ", pressure=" + pressure +
+            ", seaLevelPressure=" + seaLevelPressure +
+            ", groundLevelPressure=" + groundLevelPressure +
+            ", humidity=" + humidity +
+            '}';
+  }
 }

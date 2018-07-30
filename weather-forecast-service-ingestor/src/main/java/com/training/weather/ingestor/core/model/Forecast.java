@@ -76,4 +76,18 @@ public class Forecast implements Serializable {
   public void setDate(String date) {
     this.date = date;
   }
+
+  @Override
+  public String toString() {
+    return "Forecast{" +
+            "timestamp=" + timestamp +
+            ", mainParameters=" + mainParameters +
+            ", weather=" + weather +
+            ", clouds=" + clouds +
+            ", wind=" + wind +
+            ", rain=" + rain +
+            ", snow=" + snow +
+            ", date='" + date + '\'' +
+            '}';
+  }
 }

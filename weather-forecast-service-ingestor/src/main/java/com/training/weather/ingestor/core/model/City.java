@@ -3,7 +3,6 @@ package com.training.weather.ingestor.core.model;
 
 public class City {
 
-  private Integer id;
   private String name;
   private Coordinates coordinates;
   private String country;
@@ -25,14 +24,6 @@ public class City {
     this.name = name;
     this.coordinates = coordinates;
     this.country = country;
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
   }
 
   public String getName() {
@@ -57,5 +48,14 @@ public class City {
 
   public void setCountry(String country) {
     this.country = country;
+  }
+
+  @Override
+  public String toString() {
+    return "City{" +
+            "name='" + name + '\'' +
+            ", coordinates=" + coordinates +
+            ", country='" + country + '\'' +
+            '}';
   }
 }
