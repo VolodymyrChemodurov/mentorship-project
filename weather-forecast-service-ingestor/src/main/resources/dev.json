@@ -1,0 +1,20 @@
+[
+  {
+    "id": 702550,
+    "name": "Lviv",
+    "country": "UA",
+    "coord": {
+      "lon": 24.023239,
+      "lat": 49.838261
+    }
+  },
+  {
+    "id": 700568,
+    "name": "Mykolayiv",
+    "country": "UA",
+    "coord": {
+      "lon": 23.98522,
+      "lat": 49.52372
+    }
+  }
+]
