@@ -7,12 +7,12 @@ import com.training.weather.ingestor.core.model.Clouds;
 import com.training.weather.ingestor.core.model.Coordinates;
 import com.training.weather.ingestor.core.model.Forecast;
 import com.training.weather.ingestor.core.model.MainParameters;
-import com.training.weather.ingestor.core.model.OpenWeatherMapResponse;
 import com.training.weather.ingestor.core.model.Rain;
 import com.training.weather.ingestor.core.model.Snow;
 import com.training.weather.ingestor.core.model.Wind;
-import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecast;
-import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecastKey;
+import com.training.weather.ingestor.infrastructure.entity.redis.OpenWeatherMapResponse;
+import com.training.weather.ingestor.core.entity.WeatherForecast;
+import com.training.weather.ingestor.core.entity.WeatherForecastKey;
 import com.training.weather.ingestor.infrastructure.util.CityMixIn;
 import com.training.weather.ingestor.infrastructure.util.CloudsMixIn;
 import com.training.weather.ingestor.infrastructure.util.CoordinatesMixIn;
@@ -26,6 +26,7 @@ import com.training.weather.ingestor.infrastructure.util.WindMixIn;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.codec.RedisCodec;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -91,17 +94,15 @@ public class ApplicationConfig {
   /**
    * Defines Rest Template.
    *
-   * @param mappingJackson2HttpMessageConverter MappingJackson2HttpMessageConverter
+   * @param JacksonMessageConverter MappingJackson2HttpMessageConverter
    * @return {@link RestTemplate}
    */
   @Bean
-  public RestTemplate restTemplate(
-          MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter
-  ) {
+  public RestTemplate restTemplate(MappingJackson2HttpMessageConverter JacksonMessageConverter) {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.getMessageConverters().removeIf(m -> m.getClass().getName()
             .equals(MappingJackson2HttpMessageConverter.class.getName()));
-    restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
+    restTemplate.getMessageConverters().add(JacksonMessageConverter);
 
     return restTemplate;
   }
@@ -109,14 +110,19 @@ public class ApplicationConfig {
   /**
    * Defines list of available cities.
    *
-   * @return {@link List&ltCity&gt}
+   * @param filename     String
+   * @param objectMapper ObjectMapper
+   * @return List&ltCity&gt
+   * @throws IOException
    */
   @Bean
-  public List<City> cities() {
-    List<City> cities = new ArrayList<>();
-    cities.add(new City("Lviv", new Coordinates(49.838261, 24.023239), "UA"));
-    cities.add(new City("Mykolayiv", new Coordinates(49.52372, 23.98522), "UA"));
-    return cities;
+  public List<City> cities(@Value("${spring.city.json.filename}") String filename,
+                           ObjectMapper objectMapper) throws IOException {
+    InputStream inputStream = getClass().getResourceAsStream(filename);
+
+    City[] cities = objectMapper.readValue(inputStream, City[].class);
+
+    return Arrays.asList(cities);
   }
 
   @Bean
@@ -125,8 +131,8 @@ public class ApplicationConfig {
   }
 
   @Bean
-  public RedisClient redisClient() {
-    return RedisClient.create("redis://localhost");
+  public RedisClient redisClient(@Value("${redis.connection.string}") String connectioString) {
+    return RedisClient.create(connectioString);
   }
 
   @Bean
