@@ -3,15 +3,18 @@ package com.training.weather.ingestor.infrastructure.service;
 import com.training.weather.ingestor.core.model.City;
 import com.training.weather.ingestor.core.model.Coordinates;
 import com.training.weather.ingestor.core.model.Forecast;
-import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecast;
-import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecastKey;
-import com.training.weather.ingestor.infrastructure.repository.WeatherForecastRepository;
-import org.apache.log4j.Logger;
+import com.training.weather.ingestor.core.entity.WeatherForecast;
+import com.training.weather.ingestor.core.entity.WeatherForecastKey;
+import com.training.weather.ingestor.core.service.WeatherForecastService;
+import com.training.weather.ingestor.infrastructure.entity.redis.WeatherForecastWithOWMBuilder;
+import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WeatherForecastRedisService implements WeatherForecastService {
-  private static final Logger LOG = Logger.getLogger(WeatherForecastRedisService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(WeatherForecastRedisService.class);
 
   private final WeatherForecastRepository weatherForecastRepository;
 
@@ -31,11 +34,14 @@ public class WeatherForecastRedisService implements WeatherForecastService {
     weatherForecastKey.setCoordinates(coordinates);
     weatherForecastKey.setTimestamp(forecast.getTimestamp());
 
-    WeatherForecast weatherForecast = new WeatherForecast();
-    weatherForecast.setForecast(forecast);
+    WeatherForecastWithOWMBuilder builder = new WeatherForecastWithOWMBuilder();
+    builder.withForecast(forecast).withCoordinates(coordinates);
+
+    WeatherForecast weatherForecast = builder.createWeatherForecast();
+    LOG.info("Mapped OWM response to WeatherForecastKey " + weatherForecastKey + "\n WeatherForecast " + weatherForecast);
 
     weatherForecastRepository.save(weatherForecastKey, weatherForecast);
 
-    LOG.info("Stored to Redis.");
-  }
+    LOG.info("Stored into Redis.");
+    }
 }
