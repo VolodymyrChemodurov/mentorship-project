@@ -1,47 +1,45 @@
 package com.training.weather.ingestor.infrastructure.service;
 
-import com.training.weather.ingestor.core.model.City;
-import com.training.weather.ingestor.core.model.Forecast;
-import com.training.weather.ingestor.core.model.OpenWeatherMapResponse;
+import com.training.weather.ingestor.core.service.WeatherCachingFacade;
+import com.training.weather.ingestor.core.service.WeatherDataSource;
+import com.training.weather.ingestor.core.service.WeatherForecastService;
+import com.training.weather.ingestor.infrastructure.repository.CityRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class WeatherForecastCachingFacade implements WeatherCachingFacade {
+
+  private final static Logger LOG = LoggerFactory.getLogger(WeatherForecastCachingFacade.class);
 
   private final WeatherDataSource weatherDataSource;
 
   private final WeatherForecastService weatherForecastService;
 
-  private final List<City> cities;
+  private final CityRepository cityRepository;
 
   /**
    * Constructor.
    *
    * @param weatherDataSource      weatherDataSource
    * @param weatherForecastService WeatherForecastRedisService
-   * @param cities                 List&ltCity&gt
+   * @param cityRepository         CityRepository
    */
   public WeatherForecastCachingFacade(
           WeatherDataSource weatherDataSource,
           WeatherForecastService weatherForecastService,
-          List<City> cities) {
+          CityRepository cityRepository) {
     this.weatherDataSource = weatherDataSource;
     this.weatherForecastService = weatherForecastService;
-    this.cities = cities;
+    this.cityRepository = cityRepository;
   }
 
   /**
    * Method for retrieving weather forecasts from OpenWeather API and storing it to Redis.
    */
   public void cache() {
-    cities.forEach((city) -> {
-      OpenWeatherMapResponse response = weatherDataSource.getForecasts(city.getCoordinates());
-
-      List<Forecast> forecasts = response.getForecasts();
-
-      forecasts.forEach((forecast) -> weatherForecastService.save(forecast, city));
-    });
+    cityRepository.get().forEach(city -> weatherDataSource.getForecasts(city.getCoordinates()).
+            getForecasts().forEach(forecast -> weatherForecastService.save(forecast, city)));
   }
 }
