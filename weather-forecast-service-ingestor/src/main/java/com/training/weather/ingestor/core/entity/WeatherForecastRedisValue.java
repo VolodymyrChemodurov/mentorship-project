@@ -1,11 +1,10 @@
 package com.training.weather.ingestor.core.entity;
 
-import com.training.weather.ingestor.core.model.Weather;
+import com.training.weather.ingestor.core.model.owm.Weather;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class WeatherForecast implements Serializable {
+public class WeatherForecastRedisValue implements WeatherForecastValue {
 
   private int timestamp;
   private double temperature;
@@ -22,14 +21,12 @@ public class WeatherForecast implements Serializable {
   private double rainVolume;
   private double snowVolume;
   private String date;
-  private double latitude;
-  private double longitude;
 
-  public Integer getTimestamp() {
+  public int getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(Integer timestamp) {
+  public void setTimestamp(int timestamp) {
     this.timestamp = timestamp;
   }
 
@@ -143,25 +140,5 @@ public class WeatherForecast implements Serializable {
 
   public void setDate(String date) {
     this.date = date;
-  }
-
-  public void setTimestamp(int timestamp) {
-    this.timestamp = timestamp;
-  }
-
-  public double getLatitude() {
-    return latitude;
-  }
-
-  public void setLatitude(double latitude) {
-    this.latitude = latitude;
-  }
-
-  public double getLongitude() {
-    return longitude;
-  }
-
-  public void setLongitude(double longitude) {
-    this.longitude = longitude;
   }
 }

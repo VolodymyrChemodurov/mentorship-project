@@ -1,11 +1,12 @@
-package com.training.weather.ingestor.infrastructure.entity.redis;
+package com.training.weather.ingestor.infrastructure.model.owm;
 
-import com.training.weather.ingestor.core.model.Coordinates;
-import com.training.weather.ingestor.core.model.Forecast;
+import com.training.weather.ingestor.core.model.WeatherForecastProviderResponse;
+import com.training.weather.ingestor.core.model.owm.Coordinates;
+import com.training.weather.ingestor.core.model.owm.Forecast;
 
 import java.util.List;
 
-public class OpenWeatherMapResponse {
+public class OwmResponse implements WeatherForecastProviderResponse {
 
   private List<Forecast> forecasts;
   private Coordinates coordinates;
