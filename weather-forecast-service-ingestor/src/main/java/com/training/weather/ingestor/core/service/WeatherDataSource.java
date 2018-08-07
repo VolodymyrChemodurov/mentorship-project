@@ -1,8 +1,10 @@
 package com.training.weather.ingestor.core.service;
 
-import com.training.weather.ingestor.core.model.Coordinates;
-import com.training.weather.ingestor.infrastructure.entity.redis.OpenWeatherMapResponse;
+import com.training.weather.ingestor.core.entity.WeatherForecastWrapper;
+import com.training.weather.ingestor.core.model.owm.City;
+
+import java.util.List;
 
 public interface WeatherDataSource {
-  OpenWeatherMapResponse getForecasts(Coordinates coordinates);
+  List<WeatherForecastWrapper> getForecasts(City city);
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class WeatherForecastCachingFacade implements WeatherCachingFacade {
 
-  private final static Logger LOG = LoggerFactory.getLogger(WeatherForecastCachingFacade.class);
+  private static final  Logger LOG = LoggerFactory.getLogger(WeatherForecastCachingFacade.class);
 
   private final WeatherDataSource weatherDataSource;
 
@@ -38,8 +38,10 @@ public class WeatherForecastCachingFacade implements WeatherCachingFacade {
   /**
    * Method for retrieving weather forecasts from OpenWeather API and storing it to Redis.
    */
-  public void cache() {
-    cityRepository.get().forEach(city -> weatherDataSource.getForecasts(city.getCoordinates()).
-            getForecasts().forEach(forecast -> weatherForecastService.save(forecast, city)));
+  public void refresh() {
+    LOG.info("Starting refreshing cache.");
+    cityRepository.get().forEach(city -> weatherDataSource.getForecasts(city)
+            .forEach(forecast -> weatherForecastService.save(forecast, city)));
+    LOG.info("Cache refreshed.");
   }
 }

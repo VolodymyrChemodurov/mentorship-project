@@ -22,7 +22,7 @@ public class WeatherCachingJob {
   @Scheduled(cron = "0 * * * * *")
   public void cacheWeatherForecast() {
     LOG.info("Caching job started.");
-    weatherCachingFacade.cache();
+    weatherCachingFacade.refresh();
     LOG.info("Caching job finished.");
   }
 }

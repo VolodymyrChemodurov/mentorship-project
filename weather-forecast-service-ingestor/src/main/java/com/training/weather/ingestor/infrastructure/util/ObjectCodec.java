@@ -1,6 +1,8 @@
 package com.training.weather.ingestor.infrastructure.util;
 
 import io.lettuce.core.codec.RedisCodec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -10,6 +12,9 @@ import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 
 public class ObjectCodec<K, V> implements RedisCodec<K, V> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ObjectCodec.class);
+
   @Override
   public K decodeKey(ByteBuffer byteBuffer) {
     K key = null;
@@ -23,7 +28,7 @@ public class ObjectCodec<K, V> implements RedisCodec<K, V> {
 
       key = (K) objectInputStream.readObject();
     } catch (IOException | ClassNotFoundException exception) {
-      exception.printStackTrace();
+      LOG.error(exception.getMessage());
     } finally {
       try {
         if (byteArrayInputStream != null) {
@@ -33,7 +38,7 @@ public class ObjectCodec<K, V> implements RedisCodec<K, V> {
           objectInputStream.close();
         }
       } catch (IOException ioException) {
-        ioException.printStackTrace();
+        LOG.error(ioException.getMessage());
       }
     }
     return key;
@@ -52,7 +57,7 @@ public class ObjectCodec<K, V> implements RedisCodec<K, V> {
 
       value = (V) objectInputStream.readObject();
     } catch (IOException | ClassNotFoundException exception) {
-      exception.printStackTrace();
+      LOG.error(exception.getMessage());
     } finally {
       try {
         if (byteArrayInputStream != null) {
@@ -62,7 +67,7 @@ public class ObjectCodec<K, V> implements RedisCodec<K, V> {
           objectInputStream.close();
         }
       } catch (IOException ioException) {
-        ioException.printStackTrace();
+        LOG.error(ioException.getMessage());
       }
     }
     return value;
@@ -84,7 +89,7 @@ public class ObjectCodec<K, V> implements RedisCodec<K, V> {
 
       bytes = byteArrayOutputStream.toByteArray();
     } catch (IOException ioException) {
-      ioException.printStackTrace();
+      LOG.error(ioException.getMessage());
     } finally {
       try {
         if (byteArrayOutputStream != null) {
@@ -94,7 +99,7 @@ public class ObjectCodec<K, V> implements RedisCodec<K, V> {
           objectOutputStream.close();
         }
       } catch (IOException ioException) {
-        ioException.printStackTrace();
+        LOG.error(ioException.getMessage());
       }
     }
 
@@ -118,7 +123,7 @@ public class ObjectCodec<K, V> implements RedisCodec<K, V> {
 
       bytes = byteArrayOutputStream.toByteArray();
     } catch (IOException ioException) {
-      ioException.printStackTrace();
+      LOG.error(ioException.getMessage());
     } finally {
       try {
         if (byteArrayOutputStream != null) {
@@ -128,7 +133,7 @@ public class ObjectCodec<K, V> implements RedisCodec<K, V> {
           objectOutputStream.close();
         }
       } catch (IOException ioException) {
-        ioException.printStackTrace();
+        LOG.error(ioException.getMessage());
       }
     }
 

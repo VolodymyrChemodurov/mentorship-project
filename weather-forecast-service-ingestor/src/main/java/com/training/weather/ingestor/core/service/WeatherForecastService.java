@@ -1,8 +1,8 @@
 package com.training.weather.ingestor.core.service;
 
-import com.training.weather.ingestor.core.model.City;
-import com.training.weather.ingestor.core.model.Forecast;
+import com.training.weather.ingestor.core.entity.WeatherForecastWrapper;
+import com.training.weather.ingestor.core.model.owm.City;
 
-public interface WeatherForecastService {
-  void save(Forecast forecast, City city);
+public interface WeatherForecastService<W extends WeatherForecastWrapper> {
+  void save(W wrapper, City city);
 }
