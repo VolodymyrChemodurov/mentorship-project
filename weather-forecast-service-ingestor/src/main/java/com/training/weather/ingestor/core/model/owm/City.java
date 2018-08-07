@@ -1,5 +1,5 @@
 
-package com.training.weather.ingestor.core.model;
+package com.training.weather.ingestor.core.model.owm;
 
 public class City {
 
@@ -52,10 +52,10 @@ public class City {
 
   @Override
   public String toString() {
-    return "City{" +
-            "name='" + name + '\'' +
-            ", coordinates=" + coordinates +
-            ", country='" + country + '\'' +
-            '}';
+    return "City{"
+            + "name='" + name + '\''
+            + ", coordinates=" + coordinates
+            + ", country='" + country + '\''
+            + '}';
   }
 }

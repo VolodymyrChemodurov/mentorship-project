@@ -1,4 +1,4 @@
-package com.training.weather.ingestor.core.model;
+package com.training.weather.ingestor.core.model.owm;
 
 import java.io.Serializable;
 
@@ -103,14 +103,14 @@ public class MainParameters implements Serializable {
 
   @Override
   public String toString() {
-    return "MainParameters{" +
-            "temperature=" + temperature +
-            ", minTemperature=" + minTemperature +
-            ", maxTemperature=" + maxTemperature +
-            ", pressure=" + pressure +
-            ", seaLevelPressure=" + seaLevelPressure +
-            ", groundLevelPressure=" + groundLevelPressure +
-            ", humidity=" + humidity +
-            '}';
+    return "MainParameters{"
+            + "temperature=" + temperature
+            + ", minTemperature=" + minTemperature
+            + ", maxTemperature=" + maxTemperature
+            + ", pressure=" + pressure
+            + ", seaLevelPressure=" + seaLevelPressure
+            + ", groundLevelPressure=" + groundLevelPressure
+            + ", humidity=" + humidity
+            + '}';
   }
 }

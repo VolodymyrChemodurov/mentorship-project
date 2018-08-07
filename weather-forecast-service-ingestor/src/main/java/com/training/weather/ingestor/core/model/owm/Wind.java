@@ -1,5 +1,5 @@
 
-package com.training.weather.ingestor.core.model;
+package com.training.weather.ingestor.core.model.owm;
 
 import java.io.Serializable;
 
@@ -38,9 +38,9 @@ public class Wind implements Serializable {
 
   @Override
   public String toString() {
-    return "Wind{" +
-            "speed=" + speed +
-            ", degree=" + degree +
-            '}';
+    return "Wind{"
+            + "speed=" + speed
+            + ", degree=" + degree
+            + '}';
   }
 }

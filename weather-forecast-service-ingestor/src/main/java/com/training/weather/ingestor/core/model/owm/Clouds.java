@@ -1,8 +1,9 @@
-package com.training.weather.ingestor.core.model;
+
+package com.training.weather.ingestor.core.model.owm;
 
 import java.io.Serializable;
 
-public class Snow implements Serializable {
+public class Clouds implements Serializable {
 
   private double volume;
 
@@ -16,8 +17,8 @@ public class Snow implements Serializable {
 
   @Override
   public String toString() {
-    return "Snow{" +
-            "volume=" + volume +
-            '}';
+    return "Clouds{"
+            + "volume=" + volume
+            + '}';
   }
 }

@@ -1,5 +1,5 @@
 
-package com.training.weather.ingestor.core.model;
+package com.training.weather.ingestor.core.model.owm;
 
 import java.io.Serializable;
 
@@ -18,7 +18,8 @@ public class Coordinates implements Serializable {
 
   /**
    * Constructor.
-   * @param latitude double
+   *
+   * @param latitude  double
    * @param longitude double
    */
   public Coordinates(double latitude, double longitude) {
@@ -44,9 +45,9 @@ public class Coordinates implements Serializable {
 
   @Override
   public String toString() {
-    return "Coordinates{" +
-            "latitude=" + latitude +
-            ", longitude=" + longitude +
-            '}';
+    return "Coordinates{"
+            + "latitude=" + latitude
+            + ", longitude=" + longitude
+            + '}';
   }
 }

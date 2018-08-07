@@ -1,7 +1,7 @@
-package com.training.weather.ingestor.infrastructure.util;
+package com.training.weather.ingestor.infrastructure.util.owm.mixin;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.training.weather.ingestor.core.model.MainParameters;
+import com.training.weather.ingestor.core.model.owm.MainParameters;
 
 public interface ForecastMixIn {
   @JsonProperty("dt")
