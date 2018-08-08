@@ -1,7 +1,7 @@
-package com.training.weather.ingestor.infrastructure.util;
+package com.training.weather.ingestor.infrastructure.jackson;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.training.weather.ingestor.core.model.Forecast;
+import com.training.weather.ingestor.infrastructure.owm.OpenWeatherMapForecast;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ public interface OpenWeatherMapResponseMixIn {
   String getCode();
 
   @JsonProperty("list")
-  List<Forecast> getForecasts();
+  List<OpenWeatherMapForecast> getForecasts();
 }

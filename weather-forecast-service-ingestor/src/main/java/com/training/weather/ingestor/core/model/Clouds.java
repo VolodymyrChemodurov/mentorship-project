@@ -17,8 +17,8 @@ public class Clouds implements Serializable {
 
   @Override
   public String toString() {
-    return "Clouds{" +
-            "volume=" + volume +
-            '}';
+    return "Clouds{"
+            + "volume=" + volume
+            + '}';
   }
 }

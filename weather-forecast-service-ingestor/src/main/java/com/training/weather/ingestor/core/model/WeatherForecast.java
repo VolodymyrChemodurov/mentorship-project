@@ -1,6 +1,4 @@
-package com.training.weather.ingestor.core.entity;
-
-import com.training.weather.ingestor.core.model.Weather;
+package com.training.weather.ingestor.core.model;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,6 +28,10 @@ public class WeatherForecast implements Serializable {
   }
 
   public void setTimestamp(Integer timestamp) {
+    this.timestamp = timestamp;
+  }
+
+  public void setTimestamp(int timestamp) {
     this.timestamp = timestamp;
   }
 
@@ -143,10 +145,6 @@ public class WeatherForecast implements Serializable {
 
   public void setDate(String date) {
     this.date = date;
-  }
-
-  public void setTimestamp(int timestamp) {
-    this.timestamp = timestamp;
   }
 
   public double getLatitude() {

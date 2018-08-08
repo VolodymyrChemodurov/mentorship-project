@@ -65,11 +65,11 @@ public class Weather implements Serializable {
 
   @Override
   public String toString() {
-    return "Weather{" +
-            "id=" + id +
-            ", main='" + main + '\'' +
-            ", description='" + description + '\'' +
-            ", icon='" + icon + '\'' +
-            '}';
+    return "Weather{"
+            + "id=" + id
+            + ", main='" + main + '\''
+            + ", description='" + description + '\''
+            + ", icon='" + icon + '\''
+            + '}';
   }
 }

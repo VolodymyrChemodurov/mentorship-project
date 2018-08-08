@@ -1,9 +1,15 @@
-package com.training.weather.ingestor.core.model;
+package com.training.weather.ingestor.infrastructure.owm;
 
-import java.io.Serializable;
+import com.training.weather.ingestor.core.model.Clouds;
+import com.training.weather.ingestor.core.model.MainParameters;
+import com.training.weather.ingestor.core.model.Rain;
+import com.training.weather.ingestor.core.model.Snow;
+import com.training.weather.ingestor.core.model.Weather;
+import com.training.weather.ingestor.core.model.Wind;
+
 import java.util.List;
 
-public class Forecast implements Serializable {
+public final class OpenWeatherMapForecast {
   private Integer timestamp;
   private MainParameters mainParameters;
   private List<Weather> weather;
@@ -79,15 +85,15 @@ public class Forecast implements Serializable {
 
   @Override
   public String toString() {
-    return "Forecast{" +
-            "timestamp=" + timestamp +
-            ", mainParameters=" + mainParameters +
-            ", weather=" + weather +
-            ", clouds=" + clouds +
-            ", wind=" + wind +
-            ", rain=" + rain +
-            ", snow=" + snow +
-            ", date='" + date + '\'' +
-            '}';
+    return "Forecast{"
+            + "timestamp=" + timestamp
+            + ", mainParameters=" + mainParameters
+            + ", weather=" + weather
+            + ", clouds=" + clouds
+            + ", wind=" + wind
+            + ", rain=" + rain
+            + ", snow=" + snow
+            + ", date='" + date + '\''
+            + '}';
   }
 }

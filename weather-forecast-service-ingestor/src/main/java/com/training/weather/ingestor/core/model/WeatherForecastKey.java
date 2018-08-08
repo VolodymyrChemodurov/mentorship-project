@@ -1,4 +1,4 @@
-package com.training.weather.ingestor.core.entity;
+package com.training.weather.ingestor.core.model;
 
 import com.training.weather.ingestor.core.model.Coordinates;
 
