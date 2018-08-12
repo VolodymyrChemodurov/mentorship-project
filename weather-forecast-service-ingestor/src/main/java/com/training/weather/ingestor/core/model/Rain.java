@@ -17,8 +17,8 @@ public class Rain implements Serializable {
 
   @Override
   public String toString() {
-    return "Rain{"
-            + "volume=" + volume
-            + '}';
+    return "Rain{" +
+            "volume=" + volume +
+            '}';
   }
 }

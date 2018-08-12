@@ -1,4 +1,4 @@
-package com.training.weather.ingestor.infrastructure.lettuce;
+package com.training.weather.ingestor.infrastructure.util;
 
 import io.lettuce.core.codec.RedisCodec;
 

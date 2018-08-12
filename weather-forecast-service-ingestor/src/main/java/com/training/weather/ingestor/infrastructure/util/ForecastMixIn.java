@@ -1,4 +1,4 @@
-package com.training.weather.ingestor.infrastructure.jackson;
+package com.training.weather.ingestor.infrastructure.util;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.training.weather.ingestor.core.model.MainParameters;

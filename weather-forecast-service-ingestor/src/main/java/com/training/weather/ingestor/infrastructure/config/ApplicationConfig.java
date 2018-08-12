@@ -2,34 +2,27 @@ package com.training.weather.ingestor.infrastructure.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.training.weather.ingestor.core.CityRepository;
-import com.training.weather.ingestor.core.WeatherDataSource;
-import com.training.weather.ingestor.core.WeatherForecastCachingFacade;
-import com.training.weather.ingestor.core.WeatherForecastProcessor;
-import com.training.weather.ingestor.core.WeatherForecastRepository;
 import com.training.weather.ingestor.core.model.City;
 import com.training.weather.ingestor.core.model.Clouds;
 import com.training.weather.ingestor.core.model.Coordinates;
+import com.training.weather.ingestor.core.model.Forecast;
 import com.training.weather.ingestor.core.model.MainParameters;
 import com.training.weather.ingestor.core.model.Rain;
 import com.training.weather.ingestor.core.model.Snow;
-import com.training.weather.ingestor.core.model.WeatherForecast;
-import com.training.weather.ingestor.core.model.WeatherForecastKey;
 import com.training.weather.ingestor.core.model.Wind;
-import com.training.weather.ingestor.infrastructure.jackson.CityMixIn;
-import com.training.weather.ingestor.infrastructure.jackson.CloudsMixIn;
-import com.training.weather.ingestor.infrastructure.jackson.CoordinatesMixIn;
-import com.training.weather.ingestor.infrastructure.jackson.ForecastMixIn;
-import com.training.weather.ingestor.infrastructure.jackson.MainParametersMixIn;
-import com.training.weather.ingestor.infrastructure.jackson.OpenWeatherMapResponseMixIn;
-import com.training.weather.ingestor.infrastructure.jackson.RainMixIn;
-import com.training.weather.ingestor.infrastructure.jackson.SnowMixIn;
-import com.training.weather.ingestor.infrastructure.jackson.WindMixIn;
-import com.training.weather.ingestor.infrastructure.lettuce.ObjectCodec;
-import com.training.weather.ingestor.infrastructure.owm.OpenWeatherMapForecast;
-import com.training.weather.ingestor.infrastructure.owm.OpenWeatherMapResponse;
-import com.training.weather.ingestor.infrastructure.repository.CityResourceRepository;
-import com.training.weather.ingestor.infrastructure.resources.ResourceLoader;
+import com.training.weather.ingestor.infrastructure.entity.redis.OpenWeatherMapResponse;
+import com.training.weather.ingestor.core.entity.WeatherForecast;
+import com.training.weather.ingestor.core.entity.WeatherForecastKey;
+import com.training.weather.ingestor.infrastructure.util.CityMixIn;
+import com.training.weather.ingestor.infrastructure.util.CloudsMixIn;
+import com.training.weather.ingestor.infrastructure.util.CoordinatesMixIn;
+import com.training.weather.ingestor.infrastructure.util.ForecastMixIn;
+import com.training.weather.ingestor.infrastructure.util.MainParametersMixIn;
+import com.training.weather.ingestor.infrastructure.util.ObjectCodec;
+import com.training.weather.ingestor.infrastructure.util.OpenWeatherMapResponseMixIn;
+import com.training.weather.ingestor.infrastructure.util.RainMixIn;
+import com.training.weather.ingestor.infrastructure.util.SnowMixIn;
+import com.training.weather.ingestor.infrastructure.util.WindMixIn;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.codec.RedisCodec;
@@ -42,6 +35,11 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Spring configuration and Bean definition.
  *
@@ -53,23 +51,10 @@ import org.springframework.web.client.RestTemplate;
 @EnableRedisRepositories
 public class ApplicationConfig {
 
-  @Bean
-  public WeatherForecastCachingFacade weatherForecastCachingFacade(
-          WeatherDataSource weatherDataSource,
-          WeatherForecastProcessor processor,
-          CityRepository cityRepository) {
-    return new WeatherForecastCachingFacade(
-            weatherDataSource, processor, cityRepository);
-  }
-
-  @Bean
-  public WeatherForecastProcessor processor(
-          WeatherForecastRepository repository) {
-    return new WeatherForecastProcessor(repository);
-  }
-
   /**
    * ObjectMapper for deserializing json.
+   *
+   * @return {@link ObjectMapper}
    */
   @Bean
   public ObjectMapper objectMapper() {
@@ -84,7 +69,7 @@ public class ApplicationConfig {
     objectMapper.addMixIn(Rain.class, RainMixIn.class);
     objectMapper.addMixIn(Snow.class, SnowMixIn.class);
     objectMapper.addMixIn(MainParameters.class, MainParametersMixIn.class);
-    objectMapper.addMixIn(OpenWeatherMapForecast.class, ForecastMixIn.class);
+    objectMapper.addMixIn(Forecast.class, ForecastMixIn.class);
     objectMapper.addMixIn(OpenWeatherMapResponse.class, OpenWeatherMapResponseMixIn.class);
 
     return objectMapper;
@@ -92,6 +77,9 @@ public class ApplicationConfig {
 
   /**
    * Defines message  converter based on Object Mapper.
+   *
+   * @param objectMapper ObjectMapper
+   * @return {@link MappingJackson2HttpMessageConverter}
    */
   @Bean
   public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(
@@ -105,25 +93,36 @@ public class ApplicationConfig {
 
   /**
    * Defines Rest Template.
+   *
+   * @param JacksonMessageConverter MappingJackson2HttpMessageConverter
+   * @return {@link RestTemplate}
    */
   @Bean
-  public RestTemplate restTemplate(MappingJackson2HttpMessageConverter jacksonMessageConverter) {
+  public RestTemplate restTemplate(MappingJackson2HttpMessageConverter JacksonMessageConverter) {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.getMessageConverters().removeIf(m -> m.getClass().getName()
             .equals(MappingJackson2HttpMessageConverter.class.getName()));
-    restTemplate.getMessageConverters().add(jacksonMessageConverter);
+    restTemplate.getMessageConverters().add(JacksonMessageConverter);
 
     return restTemplate;
   }
 
+  /**
+   * Defines list of available cities.
+   *
+   * @param filename     String
+   * @param objectMapper ObjectMapper
+   * @return List&ltCity&gt
+   * @throws IOException
+   */
   @Bean
-  public ResourceLoader resourceLoader(ObjectMapper mapper) {
-    return new ResourceLoader(mapper);
-  }
+  public List<City> cities(@Value("${spring.city.json.filename}") String filename,
+                           ObjectMapper objectMapper) throws IOException {
+    InputStream inputStream = getClass().getResourceAsStream(filename);
 
-  @Bean
-  public CityRepository cityRepository(ResourceLoader resourceLoader) {
-    return new CityResourceRepository("/cities.json", resourceLoader);
+    City[] cities = objectMapper.readValue(inputStream, City[].class);
+
+    return Arrays.asList(cities);
   }
 
   @Bean

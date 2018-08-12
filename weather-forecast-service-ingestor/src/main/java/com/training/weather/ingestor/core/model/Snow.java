@@ -16,8 +16,8 @@ public class Snow implements Serializable {
 
   @Override
   public String toString() {
-    return "Snow{"
-            + "volume=" + volume
-            + '}';
+    return "Snow{" +
+            "volume=" + volume +
+            '}';
   }
 }

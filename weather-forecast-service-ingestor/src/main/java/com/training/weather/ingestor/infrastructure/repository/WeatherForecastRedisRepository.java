@@ -1,27 +1,33 @@
 package com.training.weather.ingestor.infrastructure.repository;
 
-import com.training.weather.ingestor.core.WeatherForecastRepository;
-import com.training.weather.ingestor.core.model.WeatherForecast;
-import com.training.weather.ingestor.core.model.WeatherForecastKey;
+import com.training.weather.ingestor.core.entity.WeatherForecast;
+import com.training.weather.ingestor.core.entity.WeatherForecastKey;
+import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.sync.RedisCommands;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class WeatherForecastRedisRepository implements WeatherForecastRepository {
 
-  private StatefulRedisConnection<WeatherForecastKey, WeatherForecast> connection;
+  private StatefulRedisConnection<WeatherForecastKey, WeatherForecast> statefulRedisConnection;
 
   public WeatherForecastRedisRepository(
-          StatefulRedisConnection<WeatherForecastKey, WeatherForecast> connection) {
-    this.connection = connection;
+          StatefulRedisConnection<WeatherForecastKey, WeatherForecast> statefulRedisConnection) {
+    this.statefulRedisConnection = statefulRedisConnection;
   }
 
   /**
-   * Method for storing WeatherForecast to Redis.
+   * Method for storing to Redis.
+   *
+   * @param weatherForecastKey WeatherForecastKey
+   * @param weatherForecast    WeatherForecast
+   * @return String
    */
-  public String save(
-          WeatherForecastKey weatherForecastKey,
-          WeatherForecast weatherForecast) {
-    return connection.sync().set(weatherForecastKey, weatherForecast);
+  public String save(WeatherForecastKey weatherForecastKey, WeatherForecast weatherForecast) {
+    RedisCommands<WeatherForecastKey, WeatherForecast> redisCommands
+            = statefulRedisConnection.sync();
+
+    return redisCommands.set(weatherForecastKey, weatherForecast);
   }
 }

@@ -52,10 +52,10 @@ public class City {
 
   @Override
   public String toString() {
-    return "City{"
-            + "name='" + name + '\''
-            + ", coordinates=" + coordinates
-            + ", country='" + country + '\''
-            + '}';
+    return "City{" +
+            "name='" + name + '\'' +
+            ", coordinates=" + coordinates +
+            ", country='" + country + '\'' +
+            '}';
   }
 }
