@@ -1,6 +1,6 @@
 package com.training.weather.ingestor.infrastructure.job;
 
-import com.training.weather.ingestor.core.service.WeatherCachingFacade;
+import com.training.weather.ingestor.core.service.WeatherForecastCachingFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 public class WeatherCachingJob {
   private static final Logger LOG = LoggerFactory.getLogger(WeatherCachingJob.class);
 
-  private final WeatherCachingFacade weatherCachingFacade;
+  private final WeatherForecastCachingFacade weatherForecastCachingFacade;
 
-  public WeatherCachingJob(WeatherCachingFacade weatherCachingFacade) {
-    this.weatherCachingFacade = weatherCachingFacade;
+  public WeatherCachingJob(WeatherForecastCachingFacade weatherForecastCachingFacade) {
+    this.weatherForecastCachingFacade = weatherForecastCachingFacade;
   }
 
   /**
@@ -22,7 +22,7 @@ public class WeatherCachingJob {
   @Scheduled(cron = "0 * * * * *")
   public void cacheWeatherForecast() {
     LOG.info("Caching job started.");
-    weatherCachingFacade.refresh();
+    weatherForecastCachingFacade.refresh();
     LOG.info("Caching job finished.");
   }
 }

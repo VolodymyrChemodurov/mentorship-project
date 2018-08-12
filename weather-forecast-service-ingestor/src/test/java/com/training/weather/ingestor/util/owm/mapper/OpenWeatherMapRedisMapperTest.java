@@ -1,44 +1,41 @@
-package com.training.weather.ingestor.service;
+package com.training.weather.ingestor.util.owm.mapper;
 
+import com.training.weather.ingestor.core.model.WeatherForecastKeyValueWrapper;
 import com.training.weather.ingestor.core.model.WeatherForecastRedisKey;
 import com.training.weather.ingestor.core.model.WeatherForecastRedisValue;
 import com.training.weather.ingestor.core.model.WeatherForecastRedisWrapper;
 import com.training.weather.ingestor.core.model.WeatherForecastWrapper;
 import com.training.weather.ingestor.core.model.owm.City;
+import com.training.weather.ingestor.core.model.owm.Clouds;
 import com.training.weather.ingestor.core.model.owm.Coordinates;
+import com.training.weather.ingestor.core.model.owm.Forecast;
+import com.training.weather.ingestor.core.model.owm.MainParameters;
+import com.training.weather.ingestor.core.model.owm.Rain;
+import com.training.weather.ingestor.core.model.owm.Snow;
 import com.training.weather.ingestor.core.model.owm.Weather;
+import com.training.weather.ingestor.core.model.owm.Wind;
 import com.training.weather.ingestor.infrastructure.model.owm.OpenWeatherMapResponse;
-import com.training.weather.ingestor.infrastructure.service.owm.OpenWeatherMapDataSource;
-import com.training.weather.ingestor.core.util.Mapper;
-import org.junit.Before;
+import com.training.weather.ingestor.infrastructure.util.mapper.OpenWeatherMapRedisMapper;
+import org.assertj.core.api.Assertions;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings("unchecked")
-public class OpenWeatherMapDataSourceTest {
+public class OpenWeatherMapRedisMapperTest {
 
-  private static final String API_SCHEME = "http";
-  private static final String API_HOST = "api.openweathermap.org";
-  private static final String API_KEY = "a5b6e7041392ba7156b0d1de0e3e7923";
+  private static final double ZERO_DOUBLE = 0.0;
+  private static final int ZERO_INTEGER = 0;
 
   private static final String CITY_NAME = "Lviv";
   private static final String CITY_COUNTRY = "UA";
@@ -65,45 +62,11 @@ public class OpenWeatherMapDataSourceTest {
   private static final String ICON = "icon link";
 
   private static City CITY;
-  private static List<WeatherForecastRedisWrapper> WEATHER_FORECAST_REDIS_WRAPPERS;
-
-  @Mock
-  private OpenWeatherMapResponse openWeatherMapResponse;
-
-  @Mock
-  private Mapper<OpenWeatherMapResponse> mapper;
-
-  @Mock
-  private RestTemplate restTemplate;
-
-  @Mock
-  private ResponseEntity<OpenWeatherMapResponse> owmResponseResponseEntity;
+  private static OpenWeatherMapResponse OWM_RESPONSE;
+  private static List<WeatherForecastKeyValueWrapper> WEATHER_FORECAST_REDIS_WRAPPERS;
 
   @InjectMocks
-  private OpenWeatherMapDataSource openWeatherMapDataSource;
-
-  @Before
-  public void before() throws NoSuchFieldException, IllegalAccessException {
-    Field modifiersField = Field.class.getDeclaredField("modifiers");
-    modifiersField.setAccessible(true);
-
-    Class clazz = openWeatherMapDataSource.getClass();
-    Field apiScheme = clazz.getDeclaredField("apiScheme");
-    apiScheme.setAccessible(true);
-    Field apiHost = clazz.getDeclaredField("apiHost");
-    apiHost.setAccessible(true);
-    Field apiKey = clazz.getDeclaredField("apiKey");
-    apiKey.setAccessible(true);
-    modifiersField.setInt(apiScheme, apiScheme.getModifiers() & ~Modifier.FINAL);
-    apiScheme.set(openWeatherMapDataSource, API_SCHEME);
-    apiScheme.setAccessible(false);
-    modifiersField.setInt(apiHost, apiHost.getModifiers() & ~Modifier.FINAL);
-    apiHost.set(openWeatherMapDataSource, API_HOST);
-    apiHost.setAccessible(false);
-    modifiersField.setInt(apiKey, apiKey.getModifiers() & ~Modifier.FINAL);
-    apiKey.set(openWeatherMapDataSource, API_KEY);
-    apiKey.setAccessible(false);
-  }
+  private OpenWeatherMapRedisMapper openWeatherMapRedisMapper;
 
   @BeforeClass
   public static void setUp() {
@@ -111,25 +74,48 @@ public class OpenWeatherMapDataSourceTest {
   }
 
   @Test
-  public void getForecastsShouldReturnSuccess() {
-    when(restTemplate.getForEntity(any(URI.class), any(Class.class))).
-            thenReturn(owmResponseResponseEntity);
-    doReturn(openWeatherMapResponse).when(owmResponseResponseEntity).getBody();
-    doReturn(WEATHER_FORECAST_REDIS_WRAPPERS).when(mapper).map(openWeatherMapResponse);
+  public void mapShouldSuccess(){
+    List<WeatherForecastWrapper> result = openWeatherMapRedisMapper.map(OWM_RESPONSE);
 
-    List<WeatherForecastWrapper> wrappers = openWeatherMapDataSource.getForecasts(CITY);
+    Assertions.assertThat(WEATHER_FORECAST_REDIS_WRAPPERS.get(0)).
+            isEqualToComparingFieldByFieldRecursively(result.get(0));
+  }
 
-    assertEquals(WEATHER_FORECAST_REDIS_WRAPPERS, wrappers);
+  @Test
+  public void mapShouldReturnSuccessIfCloudsEqualNull(){
+    OWM_RESPONSE.getForecasts().get(0).setClouds(null);
 
-    verify(restTemplate, times(1)).getForEntity(any(URI.class), any(Class.class));
-    verify(owmResponseResponseEntity, times(1)).getBody();
-    verify(mapper, times(1)).map(openWeatherMapResponse);
+
+    List<WeatherForecastRedisWrapper> result = openWeatherMapRedisMapper.map(OWM_RESPONSE);
+
+    assertEquals(ZERO_DOUBLE, result.get(0).getValue().getCloudsVolume(), ZERO_DOUBLE);
+  }
+
+  @Test
+  public void mapShouldReturnSuccessIfRainEqualNull(){
+    OWM_RESPONSE.getForecasts().get(0).setRain(null);
+
+
+    List<WeatherForecastRedisWrapper> result = openWeatherMapRedisMapper.map(OWM_RESPONSE);
+
+    assertEquals(ZERO_DOUBLE, result.get(0).getValue().getRainVolume(), ZERO_DOUBLE);
+  }
+
+  @Test
+  public void mapShouldReturnSuccessISnowEqualNull(){
+    OWM_RESPONSE.getForecasts().get(0).setSnow(null);
+
+
+    List<WeatherForecastRedisWrapper> result = openWeatherMapRedisMapper.map(OWM_RESPONSE);
+
+    assertEquals(ZERO_DOUBLE, result.get(0).getValue().getSnowVolume(), ZERO_DOUBLE);
   }
 
   @Ignore
   public static void prepareTestData() {
     prepareCity();
-    prepapreWeatherForecastRedisWrapper();
+    prepareOwmResponse();
+    prepareWeatherForecastRedisWrapper();
   }
 
   @Ignore
@@ -148,7 +134,53 @@ public class OpenWeatherMapDataSourceTest {
   }
 
   @Ignore
-  public static void prepapreWeatherForecastRedisWrapper() {
+  public static void prepareOwmResponse(){
+    OWM_RESPONSE = new OpenWeatherMapResponse();
+
+    MainParameters mainParameters = new MainParameters();
+    mainParameters.setTemperature(TEMPERATURE);
+    mainParameters.setMinTemperature(MIN_TEMPERATURE);
+    mainParameters.setMaxTemperature(MAX_TEMPERATURE);
+    mainParameters.setPressure(PRESSURE);
+    mainParameters.setSeaLevelPressure(SEA_LEVEL_PRESSURE);
+    mainParameters.setGroundLevelPressure(GROUND_LEVEL_PRESSURE);
+    mainParameters.setHumidity(HUMIDITY);
+
+    Weather weather = new Weather();
+    weather.setId(ID);
+    weather.setMain(MAIN);
+    weather.setDescription(DESCRIPTION);
+    weather.setIcon(ICON);
+
+    Clouds clouds = new Clouds();
+    clouds.setVolume(CLOUDS_VOLUME);
+
+    Wind wind = new Wind();
+    wind.setDegree(WIND_DEGREE);
+    wind.setSpeed(WIND_SPEED);
+
+    Rain rain = new Rain();
+    rain.setVolume(RAIN_VOLUME);
+
+    Snow snow = new Snow();
+    snow.setVolume(SNOW_VOLUME);
+
+    Forecast forecast = new Forecast();
+    forecast.setTimestamp(TIMESTAMP);
+    forecast.setMainParameters(mainParameters);
+    forecast.setWeather(Arrays.asList(weather));
+    forecast.setClouds(clouds);
+    forecast.setRain(rain);
+    forecast.setSnow(snow);
+    forecast.setWind(wind);
+    forecast.setDate(DATE);
+
+    OWM_RESPONSE.setCoordinates(CITY.getCoordinates());
+    OWM_RESPONSE.setForecasts(Arrays.asList(forecast));
+  }
+
+  @Ignore
+  public static void prepareWeatherForecastRedisWrapper() {
     WEATHER_FORECAST_REDIS_WRAPPERS = new ArrayList<>();
 
     WeatherForecastRedisKey weatherForecastRedisKey = new WeatherForecastRedisKey();
@@ -180,6 +212,7 @@ public class OpenWeatherMapDataSourceTest {
     weatherForecastRedisValue.setWeather(Arrays.asList(weather));
 
     WeatherForecastRedisWrapper weatherForecastRedisWrapper = new WeatherForecastRedisWrapper();
+
     weatherForecastRedisWrapper.setKey(weatherForecastRedisKey);
     weatherForecastRedisWrapper.setValue(weatherForecastRedisValue);
 

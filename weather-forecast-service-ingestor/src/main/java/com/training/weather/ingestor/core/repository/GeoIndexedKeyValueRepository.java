@@ -1,7 +1,7 @@
 package com.training.weather.ingestor.core.repository;
 
-import com.training.weather.ingestor.core.entity.WeatherForecastKey;
-import com.training.weather.ingestor.core.entity.WeatherForecastValue;
+import com.training.weather.ingestor.core.model.WeatherForecastKey;
+import com.training.weather.ingestor.core.model.WeatherForecastValue;
 import com.training.weather.ingestor.core.model.owm.Coordinates;
 
 public interface GeoIndexedKeyValueRepository<K extends WeatherForecastKey,

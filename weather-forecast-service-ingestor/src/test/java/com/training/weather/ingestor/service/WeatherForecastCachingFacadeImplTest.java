@@ -6,8 +6,10 @@ import com.training.weather.ingestor.core.model.WeatherForecastRedisWrapper;
 import com.training.weather.ingestor.core.model.owm.City;
 import com.training.weather.ingestor.core.model.owm.Coordinates;
 import com.training.weather.ingestor.core.model.owm.Weather;
-import com.training.weather.ingestor.core.repository.GeoIndexedKeyValueRepository;
-import com.training.weather.ingestor.core.service.WeatherForecastProcessorImpl;
+import com.training.weather.ingestor.core.service.WeatherDataSource;
+import com.training.weather.ingestor.core.service.WeatherForecastProcessor;
+import com.training.weather.ingestor.infrastructure.repository.CityResourceRepository;
+import com.training.weather.ingestor.core.service.WeatherForecastForecastCachingFacadeImpl;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,14 +18,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings("unchecked")
-public class WeatherForecastRedisServiceTest {
+public class WeatherForecastCachingFacadeImplTest {
 
   private static final String CITY_NAME = "Lviv";
   private static final String CITY_COUNTRY = "UA";
@@ -49,57 +53,69 @@ public class WeatherForecastRedisServiceTest {
   private static final String DESCRIPTION = "description";
   private static final String ICON = "icon link";
 
-  private static City CITY;
-  private static WeatherForecastRedisWrapper WEATHER_FORECAST_REDIS_WRAPPER;
+  private static List<City> CITIES;
+  private static List<WeatherForecastRedisWrapper> WEATHER_FORECAST_REDIS_WRAPPERS;
 
   @Mock
-  private GeoIndexedKeyValueRepository repository;
+  private CityResourceRepository cityResourceRepository;
+
+  @Mock
+  private WeatherDataSource weatherDataSource;
+
+  @Mock
+  private WeatherForecastProcessor weatherForecastProcessor;
 
   @InjectMocks
-  private WeatherForecastProcessorImpl weatherForecastRedisService;
+  private WeatherForecastForecastCachingFacadeImpl weatherForecastCachingFacadeImpl;
 
   @BeforeClass
-  public static void setUp(){
+  public static void setUp() {
     prepareTestData();
   }
 
   @Test
-  public void saveShouldSuccess(){
-    weatherForecastRedisService.save(WEATHER_FORECAST_REDIS_WRAPPER, CITY);
+  public void refreshShouldSuccess() {
+    when(cityResourceRepository.getAll()).thenReturn(CITIES);
+    doReturn(WEATHER_FORECAST_REDIS_WRAPPERS).when(weatherDataSource).getForecasts(any());
 
-    verify(repository, times(1)).save(
-            WEATHER_FORECAST_REDIS_WRAPPER.getKey(),
-            WEATHER_FORECAST_REDIS_WRAPPER.getValue(),
-            CITY.getCoordinates()
-    );
+    weatherForecastCachingFacadeImpl.refresh();
+
+    verify(cityResourceRepository, times(1)).getAll();
+    verify(weatherDataSource, times(1)).getForecasts(any());
+    verify(weatherForecastProcessor, times(1)).save(any(), any());
   }
 
   @Ignore
   public static void prepareTestData() {
-    prepareCity();
-    prepapreWeatherForecastRedisWrapper();
+    prepareCities();
+    prepareWeatherForecastRedisWrapper();
   }
 
   @Ignore
-  public static void prepareCity() {
-    CITY = new City();
+  public static void prepareCities() {
+    CITIES = new ArrayList<>();
+    City city = new City();
 
-    CITY.setName(CITY_NAME);
-    CITY.setCountry(CITY_COUNTRY);
+    city.setName(CITY_NAME);
+    city.setCountry(CITY_COUNTRY);
 
     Coordinates coordinates = new Coordinates();
 
     coordinates.setLongitude(CITY_LONGITUDE);
     coordinates.setLatitude(CITY_LATITUDE);
 
-    CITY.setCoordinates(coordinates);
+    city.setCoordinates(coordinates);
+
+    CITIES.add(city);
   }
 
   @Ignore
-  public static void prepapreWeatherForecastRedisWrapper() {
+  public static void prepareWeatherForecastRedisWrapper() {
+    WEATHER_FORECAST_REDIS_WRAPPERS = new ArrayList<>();
+
     WeatherForecastRedisKey weatherForecastRedisKey = new WeatherForecastRedisKey();
     weatherForecastRedisKey.setTimestamp(TIMESTAMP);
-    weatherForecastRedisKey.setCoordinates(CITY.getCoordinates());
+    weatherForecastRedisKey.setCoordinates(CITIES.get(0).getCoordinates());
 
     WeatherForecastRedisValue weatherForecastRedisValue = new WeatherForecastRedisValue();
     weatherForecastRedisValue.setTimestamp(TIMESTAMP);
@@ -125,8 +141,10 @@ public class WeatherForecastRedisServiceTest {
 
     weatherForecastRedisValue.setWeather(Arrays.asList(weather));
 
-    WEATHER_FORECAST_REDIS_WRAPPER = new WeatherForecastRedisWrapper();
-    WEATHER_FORECAST_REDIS_WRAPPER.setKey(weatherForecastRedisKey);
-    WEATHER_FORECAST_REDIS_WRAPPER.setValue(weatherForecastRedisValue);
-    }
+    WeatherForecastRedisWrapper weatherForecastRedisWrapper = new WeatherForecastRedisWrapper();
+    weatherForecastRedisWrapper.setKey(weatherForecastRedisKey);
+    weatherForecastRedisWrapper.setValue(weatherForecastRedisValue);
+
+    WEATHER_FORECAST_REDIS_WRAPPERS.add(weatherForecastRedisWrapper);
+  }
 }

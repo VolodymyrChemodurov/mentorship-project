@@ -1,8 +1,8 @@
 package com.training.weather.ingestor.infrastructure.config;
 
-import com.training.weather.ingestor.core.entity.WeatherForecastRedisKey;
-import com.training.weather.ingestor.core.entity.WeatherForecastRedisValue;
-import com.training.weather.ingestor.infrastructure.util.ObjectCodec;
+import com.training.weather.ingestor.core.model.WeatherForecastRedisKey;
+import com.training.weather.ingestor.core.model.WeatherForecastRedisValue;
+import com.training.weather.ingestor.infrastructure.lettuce.ObjectCodec;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.codec.RedisCodec;

@@ -1,6 +1,12 @@
 package com.training.weather.ingestor.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.training.weather.ingestor.core.service.WeatherDataSource;
+import com.training.weather.ingestor.core.util.Mapper;
+import com.training.weather.ingestor.infrastructure.model.owm.OpenWeatherMapResponse;
+import com.training.weather.ingestor.infrastructure.service.owm.OpenWeatherMapDataSource;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -39,5 +45,30 @@ public class DataSourceConfig {
     restTemplate.getMessageConverters().add(jacksonMessageConverter);
 
     return restTemplate;
+  }
+
+  /**
+   * WeatherDataSource Bean.
+   *
+   * @param apiScheme    String.
+   * @param apiHost      String.
+   * @param apiKey       String.
+   * @param mapper       Mapper.
+   * @param restTemplate RestTemplate.
+   * @return WeatherDataSource.
+   */
+  @Bean
+  @Qualifier("OpenWeatherMapDataSource")
+  public WeatherDataSource openWeatherMapDataSource(
+          @Value("${owm.api.scheme}") String apiScheme,
+          @Value("${owm.api.host}") String apiHost,
+          @Value("${owm.api.key}") String apiKey,
+          @Qualifier("OpenWeatherMapRedisMapper") Mapper<OpenWeatherMapResponse> mapper,
+          RestTemplate restTemplate) {
+    return new OpenWeatherMapDataSource(apiScheme,
+            apiHost,
+            apiKey,
+            mapper,
+            restTemplate);
   }
 }

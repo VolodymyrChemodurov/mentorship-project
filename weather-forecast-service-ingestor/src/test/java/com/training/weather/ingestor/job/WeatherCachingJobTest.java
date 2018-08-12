@@ -1,6 +1,6 @@
 package com.training.weather.ingestor.job;
 
-import com.training.weather.ingestor.core.service.WeatherCachingFacade;
+import com.training.weather.ingestor.core.service.WeatherForecastCachingFacade;
 import com.training.weather.ingestor.infrastructure.job.WeatherCachingJob;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,17 +16,17 @@ import static org.mockito.Mockito.verify;
 public class WeatherCachingJobTest {
 
   @Mock
-  private WeatherCachingFacade weatherCachingFacade;
+  private WeatherForecastCachingFacade weatherForecastCachingFacade;
 
   @InjectMocks
   private WeatherCachingJob weatherCachingJob;
 
   @Test
   public void cacheWeatherForecastShouldSuccess(){
-    doNothing().when(weatherCachingFacade).refresh();
+    doNothing().when(weatherForecastCachingFacade).refresh();
 
     weatherCachingJob.cacheWeatherForecast();
 
-    verify(weatherCachingFacade, times(1)).refresh();
+    verify(weatherForecastCachingFacade, times(1)).refresh();
   }
 }

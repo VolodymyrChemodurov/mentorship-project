@@ -10,16 +10,16 @@ import com.training.weather.ingestor.core.model.owm.MainParameters;
 import com.training.weather.ingestor.core.model.owm.Rain;
 import com.training.weather.ingestor.core.model.owm.Snow;
 import com.training.weather.ingestor.core.model.owm.Wind;
-import com.training.weather.ingestor.infrastructure.model.owm.OwmResponse;
-import com.training.weather.ingestor.infrastructure.util.owm.mixin.CityMixIn;
-import com.training.weather.ingestor.infrastructure.util.owm.mixin.CloudsMixIn;
-import com.training.weather.ingestor.infrastructure.util.owm.mixin.CoordinatesMixIn;
-import com.training.weather.ingestor.infrastructure.util.owm.mixin.ForecastMixIn;
-import com.training.weather.ingestor.infrastructure.util.owm.mixin.MainParametersMixIn;
-import com.training.weather.ingestor.infrastructure.util.owm.mixin.OpenWeatherMapResponseMixIn;
-import com.training.weather.ingestor.infrastructure.util.owm.mixin.RainMixIn;
-import com.training.weather.ingestor.infrastructure.util.owm.mixin.SnowMixIn;
-import com.training.weather.ingestor.infrastructure.util.owm.mixin.WindMixIn;
+import com.training.weather.ingestor.infrastructure.jackson.owm.CityMixIn;
+import com.training.weather.ingestor.infrastructure.jackson.owm.CloudsMixIn;
+import com.training.weather.ingestor.infrastructure.jackson.owm.CoordinatesMixIn;
+import com.training.weather.ingestor.infrastructure.jackson.owm.ForecastMixIn;
+import com.training.weather.ingestor.infrastructure.jackson.owm.MainParametersMixIn;
+import com.training.weather.ingestor.infrastructure.jackson.owm.OpenWeatherMapResponseMixIn;
+import com.training.weather.ingestor.infrastructure.jackson.owm.RainMixIn;
+import com.training.weather.ingestor.infrastructure.jackson.owm.SnowMixIn;
+import com.training.weather.ingestor.infrastructure.jackson.owm.WindMixIn;
+import com.training.weather.ingestor.infrastructure.model.owm.OpenWeatherMapResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -44,7 +44,7 @@ public class MappingConfig {
     objectMapper.addMixIn(Snow.class, SnowMixIn.class);
     objectMapper.addMixIn(MainParameters.class, MainParametersMixIn.class);
     objectMapper.addMixIn(Forecast.class, ForecastMixIn.class);
-    objectMapper.addMixIn(OwmResponse.class, OpenWeatherMapResponseMixIn.class);
+    objectMapper.addMixIn(OpenWeatherMapResponse.class, OpenWeatherMapResponseMixIn.class);
 
     return objectMapper;
   }

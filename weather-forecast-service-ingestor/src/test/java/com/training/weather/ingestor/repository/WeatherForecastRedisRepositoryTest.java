@@ -1,7 +1,7 @@
 package com.training.weather.ingestor.repository;
 
-import com.training.weather.ingestor.core.entity.WeatherForecastRedisKey;
-import com.training.weather.ingestor.core.entity.WeatherForecastRedisValue;
+import com.training.weather.ingestor.core.model.WeatherForecastRedisKey;
+import com.training.weather.ingestor.core.model.WeatherForecastRedisValue;
 import com.training.weather.ingestor.core.model.owm.Coordinates;
 import com.training.weather.ingestor.core.model.owm.Weather;
 import com.training.weather.ingestor.infrastructure.repository.WeatherForecastRedisRepository;
