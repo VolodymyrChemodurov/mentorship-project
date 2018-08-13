@@ -1,11 +1,8 @@
 package com.training.weather.ingestor.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.training.weather.ingestor.core.service.WeatherDataSource;
-import com.training.weather.ingestor.core.util.Mapper;
-import com.training.weather.ingestor.infrastructure.model.owm.OpenWeatherMapResponse;
-import com.training.weather.ingestor.infrastructure.service.owm.OpenWeatherMapDataSource;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
+import com.training.weather.ingestor.infrastructure.service.owm.OpenWeatherMapForecastDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +22,6 @@ public class DataSourceConfig {
   public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(
           ObjectMapper objectMapper) {
     MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-
     converter.setObjectMapper(objectMapper);
 
     return converter;
@@ -40,8 +36,9 @@ public class DataSourceConfig {
   @Bean
   public RestTemplate restTemplate(MappingJackson2HttpMessageConverter jacksonMessageConverter) {
     RestTemplate restTemplate = new RestTemplate();
-    restTemplate.getMessageConverters().removeIf(m -> m.getClass().getName()
-            .equals(MappingJackson2HttpMessageConverter.class.getName()));
+    restTemplate.getMessageConverters()
+        .removeIf(m -> m.getClass().getName().equals(
+            MappingJackson2HttpMessageConverter.class.getName()));
     restTemplate.getMessageConverters().add(jacksonMessageConverter);
 
     return restTemplate;
@@ -53,22 +50,19 @@ public class DataSourceConfig {
    * @param apiScheme    String.
    * @param apiHost      String.
    * @param apiKey       String.
-   * @param mapper       Mapper.
    * @param restTemplate RestTemplate.
    * @return WeatherDataSource.
    */
   @Bean
-  @Qualifier("OpenWeatherMapDataSource")
-  public WeatherDataSource openWeatherMapDataSource(
+  public WeatherForecastDataSource openWeatherMapDataSource(
           @Value("${owm.api.scheme}") String apiScheme,
           @Value("${owm.api.host}") String apiHost,
           @Value("${owm.api.key}") String apiKey,
-          @Qualifier("OpenWeatherMapRedisMapper") Mapper<OpenWeatherMapResponse> mapper,
           RestTemplate restTemplate) {
-    return new OpenWeatherMapDataSource(apiScheme,
-            apiHost,
-            apiKey,
-            mapper,
-            restTemplate);
+    return new OpenWeatherMapForecastDataSource(
+        apiScheme,
+        apiHost,
+        apiKey,
+        restTemplate);
   }
 }
