@@ -13,20 +13,24 @@
         <main-class>com.training.weather.api.infrastructure.web.Application</main-class>
         <java.version>1.8</java.version>
         <slf4j.api.version>1.7.25</slf4j.api.version>
-        <ch.qos.logback.version>1.2.3</ch.qos.logback.version>
+        <log4j.version>1.2.17</log4j.version>
         <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
         <jackson.version>2.9.6</jackson.version>
-        <testng.version>6.14.3</testng.version>
         <mockito.version>2.19.0</mockito.version>
+        <io.lettuce.version>5.0.4.RELEASE</io.lettuce.version>
+        <junit.version>4.12</junit.version>
+        <assertj.version>3.10.0</assertj.version>
         <maven.checkstyle.plugin>2.17</maven.checkstyle.plugin>
         <maven.compiler.plugin>3.6.1</maven.compiler.plugin>
         <maven.resources.plugin>3.0.1</maven.resources.plugin>
         <maven.shade.plugin>3.0.0</maven.shade.plugin>
+        <maven.war.plugin>3.0.0</maven.war.plugin>
         <maven.pmd.plugin>3.8</maven.pmd.plugin>
         <maven.enforcer.plugin>1.4.1</maven.enforcer.plugin>
         <maven.restrict.imports.plugin>0.8.0</maven.restrict.imports.plugin>
         <maven.version.range>[3.0.5,3.5.0]</maven.version.range>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     </properties>
 
     <dependencyManagement>
@@ -38,38 +42,31 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.api.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring.boot.version}</version>
+                <scope>test</scope>
             </dependency>
+
             <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${ch.qos.logback.version}</version>
+                <groupId>io.lettuce</groupId>
+                <artifactId>lettuce-core</artifactId>
+                <version>${io.lettuce.version}</version>
             </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${ch.qos.logback.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-            <!-- Test dependencies -->
+
             <dependency>
-                <groupId>org.testng</groupId>
-                <artifactId>testng</artifactId>
-                <version>${testng.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
-                <scope>test</scope>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+                <scope>compile</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -228,6 +225,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -235,4 +233,20 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <city.json>/cities_dev.json</city.json>
+                <redis.connection.string>redis://localhost</redis.connection.string>
+                <owm.api.scheme>http</owm.api.scheme>
+                <owm.api.host>api.openweathermap.org</owm.api.host>
+                <owm.api.key>a5b6e7041392ba7156b0d1de0e3e7923</owm.api.key>
+            </properties>
+        </profile>
+    </profiles>
 </project>
