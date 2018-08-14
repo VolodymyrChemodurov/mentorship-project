@@ -1,7 +1,7 @@
 package com.training.weather.ingestor.infrastructure.repository;
 
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.training.weather.ingestor.core.model.owm.City;
+import com.training.weather.ingestor.core.model.City;
 import com.training.weather.ingestor.core.repository.CityRepository;
 import com.training.weather.ingestor.infrastructure.resources.ResourceLoader;
 

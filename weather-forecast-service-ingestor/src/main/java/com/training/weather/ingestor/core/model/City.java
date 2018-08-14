@@ -1,5 +1,5 @@
 
-package com.training.weather.ingestor.core.model.owm;
+package com.training.weather.ingestor.core.model;
 
 public class City {
 

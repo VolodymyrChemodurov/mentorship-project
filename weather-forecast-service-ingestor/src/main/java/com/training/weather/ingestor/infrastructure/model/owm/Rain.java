@@ -1,5 +1,5 @@
 
-package com.training.weather.ingestor.core.model.owm;
+package com.training.weather.ingestor.infrastructure.model.owm;
 
 import java.io.Serializable;
 

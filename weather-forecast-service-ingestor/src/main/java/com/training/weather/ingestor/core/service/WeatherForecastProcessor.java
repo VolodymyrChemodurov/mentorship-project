@@ -1,8 +1,18 @@
 package com.training.weather.ingestor.core.service;
 
-import com.training.weather.ingestor.core.model.WeatherForecastWrapper;
-import com.training.weather.ingestor.core.model.owm.City;
+import com.training.weather.ingestor.core.model.WeatherForecast;
+import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
 
-public interface WeatherForecastProcessor<W extends WeatherForecastWrapper> {
-  void save(W wrapper, City city);
+public class WeatherForecastProcessor {
+
+  private final WeatherForecastRepository weatherForecastRepository;
+
+  public WeatherForecastProcessor(
+      WeatherForecastRepository weatherForecastRepository) {
+    this.weatherForecastRepository = weatherForecastRepository;
+  }
+
+  public void process(WeatherForecast forecast) {
+    weatherForecastRepository.save(forecast);
+  }
 }

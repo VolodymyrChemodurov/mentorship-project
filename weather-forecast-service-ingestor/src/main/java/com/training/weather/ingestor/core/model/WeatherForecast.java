@@ -1,12 +1,7 @@
 package com.training.weather.ingestor.core.model;
 
-import com.training.weather.ingestor.core.model.owm.Weather;
-
-import java.util.List;
-
-public class WeatherForecastRedisValue implements WeatherForecastValue {
-
-  private int timestamp;
+public final class WeatherForecast {
+  private Coordinates coordinates;
   private double temperature;
   private double minTemperature;
   private double maxTemperature;
@@ -14,7 +9,6 @@ public class WeatherForecastRedisValue implements WeatherForecastValue {
   private double seaLevelPressure;
   private double groundLevelPressure;
   private int humidity;
-  private List<Weather> weather;
   private double cloudsVolume;
   private double windSpeed;
   private double windDegree;
@@ -22,12 +16,12 @@ public class WeatherForecastRedisValue implements WeatherForecastValue {
   private double snowVolume;
   private String date;
 
-  public int getTimestamp() {
-    return timestamp;
+  public Coordinates getCoordinates() {
+    return coordinates;
   }
 
-  public void setTimestamp(int timestamp) {
-    this.timestamp = timestamp;
+  public void setCoordinates(Coordinates coordinates) {
+    this.coordinates = coordinates;
   }
 
   public double getTemperature() {
@@ -84,14 +78,6 @@ public class WeatherForecastRedisValue implements WeatherForecastValue {
 
   public void setHumidity(int humidity) {
     this.humidity = humidity;
-  }
-
-  public List<Weather> getWeather() {
-    return weather;
-  }
-
-  public void setWeather(List<Weather> weather) {
-    this.weather = weather;
   }
 
   public double getCloudsVolume() {
