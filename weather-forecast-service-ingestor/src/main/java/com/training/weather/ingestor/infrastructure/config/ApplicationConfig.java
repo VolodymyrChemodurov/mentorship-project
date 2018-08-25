@@ -1,11 +1,11 @@
 package com.training.weather.ingestor.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.training.weather.ingestor.core.repository.CityRepository;
-import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
-import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
-import com.training.weather.ingestor.core.service.WeatherForecastCachingFacade;
-import com.training.weather.ingestor.core.service.WeatherForecastProcessor;
+import com.training.weather.core.repository.CityRepository;
+import com.training.weather.core.repository.WeatherForecastDataSource;
+import com.training.weather.core.repository.WeatherForecastRepository;
+import com.training.weather.core.service.WeatherForecastCachingFacade;
+import com.training.weather.core.service.WeatherForecastProcessor;
 import com.training.weather.ingestor.infrastructure.repository.CityResourceRepository;
 import com.training.weather.ingestor.infrastructure.resources.ResourceLoader;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,15 +40,16 @@ public class ApplicationConfig {
 
   @Bean
   public WeatherForecastProcessor weatherForecastProcessor(
-      WeatherForecastRepository repository) {
+          WeatherForecastRepository repository) {
     return new WeatherForecastProcessor(repository);
   }
 
   /**
    * WeatherForecastCachingFacade Bean.
+   *
    * @param weatherForecastDataSource WeatherDataSource.
-   * @param weatherForecastProcessor WeatherForecastProcessor.
-   * @param cityRepository CityRepository.
+   * @param weatherForecastProcessor  WeatherForecastProcessor.
+   * @param cityRepository            CityRepository.
    * @return WeatherForecastCachingFacade.
    */
   @Bean
@@ -57,8 +58,8 @@ public class ApplicationConfig {
           WeatherForecastProcessor weatherForecastProcessor,
           CityRepository cityRepository) {
     return new WeatherForecastCachingFacade(
-        weatherForecastDataSource,
-        weatherForecastProcessor,
-        cityRepository);
+            weatherForecastDataSource,
+            weatherForecastProcessor,
+            cityRepository);
   }
 }

@@ -2,10 +2,12 @@ package com.training.weather.ingestor.infrastructure.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.training.weather.ingestor.core.model.Coordinates;
-import com.training.weather.ingestor.core.model.WeatherForecast;
-import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
+import com.training.weather.core.model.Coordinates;
+import com.training.weather.core.model.WeatherForecast;
+import com.training.weather.core.repository.WeatherForecastRepository;
+import com.training.weather.core.utils.DateUtils;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.sync.RedisCommands;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -27,18 +29,25 @@ public class WeatherForecastRedisRepository implements WeatherForecastRepository
   public void save(WeatherForecast weatherForecast) {
     Coordinates coordinates = weatherForecast.getCoordinates();
 
-    connection.sync().geoadd(
-        weatherForecast.getDate().getBytes(),
-        coordinates.getLongitude(),
-        coordinates.getLatitude(),
-        convert(weatherForecast).getBytes());
+    String key = DateUtils.toWeatherForecastDateString(weatherForecast.getDate());
+    long expiryTime = DateUtils.timestamp(weatherForecast.getDate());
+
+    RedisCommands commands = connection.sync();
+
+    commands.geoadd(
+            key.getBytes(),
+            coordinates.getLongitude(),
+            coordinates.getLatitude(),
+            convert(weatherForecast).getBytes());
+
+    commands.expireat(key.getBytes(), expiryTime);
   }
 
   private String convert(WeatherForecast weatherForecast) {
     try {
       return mapper.writeValueAsString(weatherForecast);
-    } catch (JsonProcessingException e) {
-      throw new IllegalArgumentException(e);
+    } catch (JsonProcessingException jpException) {
+      throw new IllegalArgumentException(jpException);
     }
   }
 }

@@ -1,7 +1,7 @@
 package com.training.weather.ingestor.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
+import com.training.weather.core.repository.WeatherForecastDataSource;
 import com.training.weather.ingestor.infrastructure.service.owm.OpenWeatherMapForecastDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -37,8 +37,8 @@ public class DataSourceConfig {
   public RestTemplate restTemplate(MappingJackson2HttpMessageConverter jacksonMessageConverter) {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.getMessageConverters()
-        .removeIf(m -> m.getClass().getName().equals(
-            MappingJackson2HttpMessageConverter.class.getName()));
+            .removeIf(m -> m.getClass().getName().equals(
+                    MappingJackson2HttpMessageConverter.class.getName()));
     restTemplate.getMessageConverters().add(jacksonMessageConverter);
 
     return restTemplate;
@@ -60,9 +60,9 @@ public class DataSourceConfig {
           @Value("${owm.api.key}") String apiKey,
           RestTemplate restTemplate) {
     return new OpenWeatherMapForecastDataSource(
-        apiScheme,
-        apiHost,
-        apiKey,
-        restTemplate);
+            apiScheme,
+            apiHost,
+            apiKey,
+            restTemplate);
   }
 }
