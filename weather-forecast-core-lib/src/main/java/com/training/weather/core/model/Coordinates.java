@@ -1,5 +1,5 @@
 
-package com.training.weather.ingestor.core.model;
+package com.training.weather.core.model;
 
 public class Coordinates {
 

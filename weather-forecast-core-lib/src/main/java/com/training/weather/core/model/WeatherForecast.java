@@ -1,4 +1,6 @@
-package com.training.weather.ingestor.core.model;
+package com.training.weather.core.model;
+
+import java.time.LocalDateTime;
 
 public final class WeatherForecast {
   private Coordinates coordinates;
@@ -14,7 +16,7 @@ public final class WeatherForecast {
   private double windDegree;
   private double rainVolume;
   private double snowVolume;
-  private String date;
+  private LocalDateTime date;
 
   public Coordinates getCoordinates() {
     return coordinates;
@@ -120,11 +122,11 @@ public final class WeatherForecast {
     this.snowVolume = snowVolume;
   }
 
-  public String getDate() {
+  public LocalDateTime getDate() {
     return date;
   }
 
-  public void setDate(String date) {
+  public void setDate(LocalDateTime date) {
     this.date = date;
   }
 }
