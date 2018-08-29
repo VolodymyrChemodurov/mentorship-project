@@ -1,8 +1,8 @@
-package com.training.weather.core.service;
+package com.training.weather.ingestor.core.service;
 
-import com.training.weather.core.model.City;
-import com.training.weather.core.repository.CityRepository;
-import com.training.weather.core.repository.WeatherForecastDataSource;
+import com.training.weather.ingestor.core.model.City;
+import com.training.weather.ingestor.core.repository.CityRepository;
+import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
 
 import java.util.Iterator;
 

@@ -1,7 +1,7 @@
 package com.training.weather.ingestor.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.training.weather.core.repository.WeatherForecastDataSource;
+import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
 import com.training.weather.ingestor.infrastructure.service.owm.OpenWeatherMapForecastDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

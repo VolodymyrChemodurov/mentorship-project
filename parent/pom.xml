@@ -37,7 +37,7 @@
         <dependencies>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>weather-forecast-core-lib</artifactId>
+                <artifactId>weather-forecast-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

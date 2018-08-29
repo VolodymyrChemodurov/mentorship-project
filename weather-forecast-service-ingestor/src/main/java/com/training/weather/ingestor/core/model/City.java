@@ -1,5 +1,7 @@
 
-package com.training.weather.core.model;
+package com.training.weather.ingestor.core.model;
+
+import com.training.weather.core.model.Coordinates;
 
 public class City {
 

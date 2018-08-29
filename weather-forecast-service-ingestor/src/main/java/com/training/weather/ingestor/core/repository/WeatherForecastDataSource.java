@@ -1,7 +1,7 @@
-package com.training.weather.core.repository;
+package com.training.weather.ingestor.core.repository;
 
-import com.training.weather.core.model.City;
 import com.training.weather.core.model.WeatherForecast;
+import com.training.weather.ingestor.core.model.City;
 
 import java.util.List;
 

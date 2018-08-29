@@ -1,6 +1,6 @@
 package com.training.weather.ingestor.infrastructure.job;
 
-import com.training.weather.core.service.WeatherForecastCachingFacade;
+import com.training.weather.ingestor.core.service.WeatherForecastCachingFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;

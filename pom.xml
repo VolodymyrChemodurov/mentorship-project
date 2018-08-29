@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>weather-forecast-core-lib</module>
+        <module>weather-forecast-common</module>
         <module>weather-forecast-service-api</module>
         <module>weather-forecast-service-ingestor</module>
     </modules>

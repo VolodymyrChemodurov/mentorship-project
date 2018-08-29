@@ -1,7 +1,7 @@
 package com.training.weather.ingestor.infrastructure.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.training.weather.core.model.City;
+import com.training.weather.ingestor.core.model.City;
 import com.training.weather.ingestor.infrastructure.resources.ResourceLoader;
 import org.junit.Assert;
 import org.junit.Before;

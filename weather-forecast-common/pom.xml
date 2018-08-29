@@ -10,6 +10,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>weather-forecast-core-lib</artifactId>
+    <artifactId>weather-forecast-common</artifactId>
 
 </project>
