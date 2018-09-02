@@ -80,7 +80,7 @@ public class OpenWeatherMapForecastDataSource implements WeatherForecastDataSour
             .scheme(apiScheme)
             .host(apiHost)
             .path("/data/2.5/forecast")
-            .query("lat={latitude}&lon={longitude}&appid={apiKey}")
+            .query("lat={latitude}&lon={longitude}&appid={apiKey}&units=metric")
             .buildAndExpand(
                     coordinates.getLatitude(),
                     coordinates.getLongitude(),
