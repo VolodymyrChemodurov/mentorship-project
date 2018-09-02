@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.training.weather.ingestor.core.repository.CityRepository;
 import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
 import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
+import com.training.weather.ingestor.core.service.AsyncWeatherForecastCachingFacade;
+import com.training.weather.ingestor.core.service.SyncWeatherForecastCachingFacade;
 import com.training.weather.ingestor.core.service.WeatherForecastCachingFacade;
 import com.training.weather.ingestor.core.service.WeatherForecastProcessor;
 import com.training.weather.ingestor.infrastructure.repository.CityResourceRepository;
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
@@ -45,21 +48,49 @@ public class ApplicationConfig {
   }
 
   /**
-   * WeatherForecastCachingFacade Bean.
+   * SyncWeatherForecastCachingFacade Bean.
    *
    * @param weatherForecastDataSource WeatherDataSource.
    * @param weatherForecastProcessor  WeatherForecastProcessor.
    * @param cityRepository            CityRepository.
+   * @param maxRequestsPerMinute      long.
+   * @return SyncWeatherForecastCachingFacade.
+   */
+  @Deprecated
+  public WeatherForecastCachingFacade syncWeatherForecastCachingFacade(
+          WeatherForecastDataSource weatherForecastDataSource,
+          WeatherForecastProcessor weatherForecastProcessor,
+          CityRepository cityRepository,
+          @Value("${owm.minute.max.requests.number}") long maxRequestsPerMinute) {
+    return new SyncWeatherForecastCachingFacade(
+            weatherForecastDataSource,
+            weatherForecastProcessor,
+            cityRepository,
+            maxRequestsPerMinute);
+  }
+
+  /**
+   * AsyncWeatherForecastCachingFacade Bean
+   *
+   * @param weatherForecastDataSource WeatherForecastDataSource.
+   * @param weatherForecastProcessor  WeatherForecastProcessor.
+   * @param cityRepository            CityRepository.
+   * @param maxRequestsPerMinute      long.
+   * @param cacheRefreshFrequency     long.
    * @return WeatherForecastCachingFacade.
    */
   @Bean
-  public WeatherForecastCachingFacade weatherForecastCachingFacade(
+  public WeatherForecastCachingFacade asyncWeatherForecastCachingFacade(
           WeatherForecastDataSource weatherForecastDataSource,
           WeatherForecastProcessor weatherForecastProcessor,
-          CityRepository cityRepository) {
-    return new WeatherForecastCachingFacade(
+          CityRepository cityRepository,
+          @Value("${owm.minute.max.requests.number}") long maxRequestsPerMinute,
+          @Value("${cache.refresh.frequency.time}") long cacheRefreshFrequency) {
+    return new AsyncWeatherForecastCachingFacade(
             weatherForecastDataSource,
             weatherForecastProcessor,
-            cityRepository);
+            cityRepository,
+            maxRequestsPerMinute,
+            cacheRefreshFrequency);
   }
 }
