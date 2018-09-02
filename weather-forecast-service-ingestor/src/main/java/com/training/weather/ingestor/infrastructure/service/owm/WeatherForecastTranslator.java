@@ -6,6 +6,8 @@ import com.training.weather.core.utils.DateUtils;
 import com.training.weather.ingestor.infrastructure.model.owm.Forecast;
 import com.training.weather.ingestor.infrastructure.model.owm.MainParameters;
 
+import java.time.LocalDateTime;
+
 public final class WeatherForecastTranslator {
 
   private WeatherForecastTranslator() {
@@ -17,7 +19,8 @@ public final class WeatherForecastTranslator {
   public static WeatherForecast from(Forecast forecast, Coordinates coordinates) {
     WeatherForecast weatherForecast = new WeatherForecast();
     weatherForecast.setCoordinates(coordinates);
-    weatherForecast.setDate(DateUtils.toWeatherForecastDate(forecast.getDate()));
+    weatherForecast.setDate(DateUtils.parseWeatherMapDateString(forecast.getDate()));
+    weatherForecast.setCreated(LocalDateTime.now());
 
     MainParameters mainParameters = forecast.getMainParameters();
     weatherForecast.setGroundLevelPressure(mainParameters.getGroundLevelPressure());

@@ -17,6 +17,7 @@ public final class WeatherForecast {
   private double rainVolume;
   private double snowVolume;
   private LocalDateTime date;
+  private LocalDateTime created;
 
   public Coordinates getCoordinates() {
     return coordinates;
@@ -128,5 +129,13 @@ public final class WeatherForecast {
 
   public void setDate(LocalDateTime date) {
     this.date = date;
+  }
+
+  public LocalDateTime getCreated() {
+    return created;
+  }
+
+  public void setCreated(LocalDateTime created) {
+    this.created = created;
   }
 }

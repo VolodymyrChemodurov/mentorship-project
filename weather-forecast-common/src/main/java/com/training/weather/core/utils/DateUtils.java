@@ -16,12 +16,8 @@ public final class DateUtils {
   private DateUtils() {
   }
 
-  public static LocalDateTime toWeatherForecastDate(String date) {
+  public static LocalDateTime parseWeatherMapDateString(String date) {
     return LocalDateTime.parse(date, WEATHER_MAP_DATE_FORMAT);
-  }
-
-  public static String toWeatherMapDateString(LocalDateTime date) {
-    return WEATHER_MAP_DATE_FORMAT.format(date);
   }
 
   public static String toWeatherForecastDateString(LocalDateTime date) {
