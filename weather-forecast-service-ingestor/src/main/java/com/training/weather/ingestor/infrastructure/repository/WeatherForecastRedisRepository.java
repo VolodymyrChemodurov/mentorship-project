@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 public class WeatherForecastRedisRepository implements WeatherForecastRepository {
 
   private final StatefulRedisConnection<byte[], byte[]> connection;
+
   private final ObjectMapper mapper;
 
   public WeatherForecastRedisRepository(
@@ -26,6 +27,7 @@ public class WeatherForecastRedisRepository implements WeatherForecastRepository
   /**
    * Method for storing WeatherForecast to Redis.
    */
+  @Override
   public void save(WeatherForecast weatherForecast) {
     Coordinates coordinates = weatherForecast.getCoordinates();
 
