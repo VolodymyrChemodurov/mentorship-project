@@ -1,6 +1,5 @@
 package com.training.weather.ingestor.core.service;
 
-import com.training.weather.ingestor.core.repository.CityRepository;
 import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
 
 import java.util.Collection;
@@ -11,29 +10,29 @@ public class WeatherForecastCachingFacade {
 
   private final WeatherForecastProcessor weatherForecastProcessor;
 
-  private final CityRepository cityRepository;
+  private final IngestionSource ingestionSource;
 
   /**
    * Constructor.
    *
    * @param weatherForecastDataSource      weatherDataSource
    * @param weatherForecastProcessor WeatherForecastProcessorImpl
-   * @param cityRepository         CityResourceRepository
+   * @param ingestionSource         IngestionSource
    */
   public WeatherForecastCachingFacade(
           WeatherForecastDataSource weatherForecastDataSource,
           WeatherForecastProcessor weatherForecastProcessor,
-          CityRepository cityRepository) {
+          IngestionSource ingestionSource) {
     this.weatherForecastDataSource = weatherForecastDataSource;
     this.weatherForecastProcessor = weatherForecastProcessor;
-    this.cityRepository = cityRepository;
+    this.ingestionSource = ingestionSource;
   }
 
   /**
    * Method for retrieving weather forecasts from OpenWeather API and process them.
    */
   public void refresh() {
-    cityRepository.getAll().stream()
+    ingestionSource.get().stream()
         .map(weatherForecastDataSource::getForecasts)
         .flatMap(Collection::stream)
         .forEach(weatherForecastProcessor::process);
