@@ -14,5 +14,545 @@
       "longitude": 23.98522,
       "latitude": 49.52372
     }
+  },
+  {
+    "id": 707860,
+    "name": "Hurzuf",
+    "country": "UA",
+    "coordinates": {
+      "longitude": 34.283333,
+      "latitude": 44.549999
+    }
+  },
+  {
+    "id": 519188,
+    "name": "Novinki",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 37.666668,
+      "latitude": 55.683334
+    }
+  },
+  {
+    "id": 1283378,
+    "name": "Gorkhā",
+    "country": "NP",
+    "coordinates": {
+      "longitude": 84.633331,
+      "latitude": 28
+    }
+  },
+  {
+    "id": 1270260,
+    "name": "State of Haryāna",
+    "country": "IN",
+    "coordinates": {
+      "longitude": 76,
+      "latitude": 29
+    }
+  },
+  {
+    "id": 708546,
+    "name": "Holubynka",
+    "country": "UA",
+    "coordinates": {
+      "longitude": 33.900002,
+      "latitude": 44.599998
+    }
+  },
+  {
+    "id": 1283710,
+    "name": "Bāgmatī Zone",
+    "country": "NP",
+    "coordinates": {
+      "longitude": 85.416664,
+      "latitude": 28
+    }
+  },
+  {
+    "id": 529334,
+    "name": "Mar’ina Roshcha",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 37.611111,
+      "latitude": 55.796391
+    }
+  },
+  {
+    "id": 1269750,
+    "name": "Republic of India",
+    "country": "IN",
+    "coordinates": {
+      "longitude": 77,
+      "latitude": 20
+    }
+  },
+  {
+    "id": 1283240,
+    "name": "Kathmandu",
+    "country": "NP",
+    "coordinates": {
+      "longitude": 85.316666,
+      "latitude": 27.716667
+    }
+  },
+  {
+    "id": 703363,
+    "name": "Laspi",
+    "country": "UA",
+    "coordinates": {
+      "longitude": 33.733334,
+      "latitude": 44.416668
+    }
+  },
+  {
+    "id": 3632308,
+    "name": "Merida",
+    "country": "VE",
+    "coordinates": {
+      "longitude": -71.144997,
+      "latitude": 8.598333
+    }
+  },
+  {
+    "id": 473537,
+    "name": "Vinogradovo",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 38.545555,
+      "latitude": 55.423332
+    }
+  },
+  {
+    "id": 384848,
+    "name": "Qarah Gawl al ‘Ulyā",
+    "country": "IQ",
+    "coordinates": {
+      "longitude": 45.6325,
+      "latitude": 35.353889
+    }
+  },
+  {
+    "id": 569143,
+    "name": "Cherkizovo",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 37.728889,
+      "latitude": 55.800835
+    }
+  },
+  {
+    "id": 713514,
+    "name": "Alupka",
+    "country": "UA",
+    "coordinates": {
+      "longitude": 34.049999,
+      "latitude": 44.416668
+    }
+  },
+  {
+    "id": 2878044,
+    "name": "Lichtenrade",
+    "country": "DE",
+    "coordinates": {
+      "longitude": 13.40637,
+      "latitude": 52.398441
+    }
+  },
+  {
+    "id": 464176,
+    "name": "Zavety Il’icha",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 37.849998,
+      "latitude": 56.049999
+    }
+  },
+  {
+    "id": 295582,
+    "name": "‘Azriqam",
+    "country": "IL",
+    "coordinates": {
+      "longitude": 34.700001,
+      "latitude": 31.75
+    }
+  },
+  {
+    "id": 1271231,
+    "name": "Ghūra",
+    "country": "IN",
+    "coordinates": {
+      "longitude": 79.883331,
+      "latitude": 24.766666
+    }
+  },
+  {
+    "id": 690856,
+    "name": "Tyuzler",
+    "country": "UA",
+    "coordinates": {
+      "longitude": 34.083332,
+      "latitude": 44.466667
+    }
+  },
+  {
+    "id": 464737,
+    "name": "Zaponor’ye",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 38.861942,
+      "latitude": 55.639999
+    }
+  },
+  {
+    "id": 707716,
+    "name": "Il’ichëvka",
+    "country": "UA",
+    "coordinates": {
+      "longitude": 34.383331,
+      "latitude": 44.666668
+    }
+  },
+  {
+    "id": 697959,
+    "name": "Partyzans’ke",
+    "country": "UA",
+    "coordinates": {
+      "longitude": 34.083332,
+      "latitude": 44.833332
+    }
+  },
+  {
+    "id": 803611,
+    "name": "Yurevichi",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 39.934444,
+      "latitude": 43.600555
+    }
+  },
+  {
+    "id": 614371,
+    "name": "Gumist’a",
+    "country": "GE",
+    "coordinates": {
+      "longitude": 40.973888,
+      "latitude": 43.026943
+    }
+  },
+  {
+    "id": 874560,
+    "name": "Ptitsefabrika",
+    "country": "GE",
+    "coordinates": {
+      "longitude": 40.290558,
+      "latitude": 43.183613
+    }
+  },
+  {
+    "id": 874652,
+    "name": "Orekhovo",
+    "country": "GE",
+    "coordinates": {
+      "longitude": 40.146111,
+      "latitude": 43.351391
+    }
+  },
+  {
+    "id": 2347078,
+    "name": "Birim",
+    "country": "NG",
+    "coordinates": {
+      "longitude": 9.997027,
+      "latitude": 10.062094
+    }
+  },
+  {
+    "id": 2051302,
+    "name": "Priiskovyy",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 132.822495,
+      "latitude": 42.819168
+    }
+  },
+  {
+    "id": 563692,
+    "name": "Dzhaga",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 42.650002,
+      "latitude": 43.25
+    }
+  },
+  {
+    "id": 481725,
+    "name": "Tret’ya Rota",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 39.681389,
+      "latitude": 43.741943
+    }
+  },
+  {
+    "id": 2638976,
+    "name": "Ruislip",
+    "country": "GB",
+    "coordinates": {
+      "longitude": -0.42341,
+      "latitude": 51.573441
+    }
+  },
+  {
+    "id": 2892705,
+    "name": "Karow",
+    "country": "DE",
+    "coordinates": {
+      "longitude": 13.48117,
+      "latitude": 52.609039
+    }
+  },
+  {
+    "id": 2922336,
+    "name": "Gatow",
+    "country": "DE",
+    "coordinates": {
+      "longitude": 13.18285,
+      "latitude": 52.483238
+    }
+  },
+  {
+    "id": 975511,
+    "name": "Mkuze",
+    "country": "ZA",
+    "coordinates": {
+      "longitude": 32.038609,
+      "latitude": -27.616409
+    }
+  },
+  {
+    "id": 1280737,
+    "name": "Lhasa",
+    "country": "CN",
+    "coordinates": {
+      "longitude": 91.099998,
+      "latitude": 29.65
+    }
+  },
+  {
+    "id": 745042,
+    "name": "İstanbul",
+    "country": "TR",
+    "coordinates": {
+      "longitude": 28.983311,
+      "latitude": 41.03508
+    }
+  },
+  {
+    "id": 3496831,
+    "name": "Mao",
+    "country": "DO",
+    "coordinates": {
+      "longitude": -71.078133,
+      "latitude": 19.551861
+    }
+  },
+  {
+    "id": 2017370,
+    "name": "Russian Federation",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 100,
+      "latitude": 60
+    }
+  },
+  {
+    "id": 2045761,
+    "name": "De-Friz",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 131.991394,
+      "latitude": 43.27861
+    }
+  },
+  {
+    "id": 1257986,
+    "name": "Rumbak",
+    "country": "IN",
+    "coordinates": {
+      "longitude": 77.416664,
+      "latitude": 34.049999
+    }
+  },
+  {
+    "id": 476350,
+    "name": "Vavibet",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 34.916668,
+      "latitude": 67.933334
+    }
+  },
+  {
+    "id": 1343000,
+    "name": "Surtagān Chib",
+    "country": "PK",
+    "coordinates": {
+      "longitude": 64.656113,
+      "latitude": 26.474443
+    }
+  },
+  {
+    "id": 456169,
+    "name": "Rīgas Rajons",
+    "country": "LV",
+    "coordinates": {
+      "longitude": 24.333332,
+      "latitude": 57
+    }
+  },
+  {
+    "id": 475279,
+    "name": "Verkhneye Shchekotikhino",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 36.133331,
+      "latitude": 53
+    }
+  },
+  {
+    "id": 711349,
+    "name": "Bucha",
+    "country": "UA",
+    "coordinates": {
+      "longitude": 30.366671,
+      "latitude": 50.583328
+    }
+  },
+  {
+    "id": 798544,
+    "name": "Republic of Poland",
+    "country": "PL",
+    "coordinates": {
+      "longitude": 20,
+      "latitude": 52
+    }
+  },
+  {
+    "id": 3094325,
+    "name": "Kuchary",
+    "country": "PL",
+    "coordinates": {
+      "longitude": 19.383329,
+      "latitude": 52.150002
+    }
+  },
+  {
+    "id": 6255149,
+    "name": "North America",
+    "country": "",
+    "coordinates": {
+      "longitude": -100.546883,
+      "latitude": 46.073231
+    }
+  },
+  {
+    "id": 3575514,
+    "name": "Brumaire",
+    "country": "KN",
+    "coordinates": {
+      "longitude": -62.73333,
+      "latitude": 17.299999
+    }
+  },
+  {
+    "id": 1861387,
+    "name": "Ishikawa-ken",
+    "country": "JP",
+    "coordinates": {
+      "longitude": 136.770493,
+      "latitude": 36.77145
+    }
+  },
+  {
+    "id": 1857578,
+    "name": "Matoba",
+    "country": "JP",
+    "coordinates": {
+      "longitude": 133.949997,
+      "latitude": 34.25
+    }
+  },
+  {
+    "id": 1299298,
+    "name": "Pya",
+    "country": "MM",
+    "coordinates": {
+      "longitude": 95.599998,
+      "latitude": 21.51667
+    }
+  },
+  {
+    "id": 3256023,
+    "name": "Kalanac",
+    "country": "BA",
+    "coordinates": {
+      "longitude": 18.78389,
+      "latitude": 44.86861
+    }
+  },
+  {
+    "id": 2921044,
+    "name": "Federal Republic of Germany",
+    "country": "DE",
+    "coordinates": {
+      "longitude": 10.5,
+      "latitude": 51.5
+    }
+  },
+  {
+    "id": 2861876,
+    "name": "Land Nordrhein-Westfalen",
+    "country": "DE",
+    "coordinates": {
+      "longitude": 7,
+      "latitude": 51.5
+    }
+  },
+  {
+    "id": 802899,
+    "name": "Mutaykutan",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 47.660641,
+      "latitude": 42.818859
+    }
+  },
+  {
+    "id": 523523,
+    "name": "Nalchik",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 43.618889,
+      "latitude": 43.498058
+    }
+  },
+  {
+    "id": 546448,
+    "name": "Kolganov",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 40.066669,
+      "latitude": 44.366669
+    }
+  },
+  {
+    "id": 500023,
+    "name": "Rybatskiy",
+    "country": "RU",
+    "coordinates": {
+      "longitude": 44.166389,
+      "latitude": 44.799171
+    }
   }
 ]
