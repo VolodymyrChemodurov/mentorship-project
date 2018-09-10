@@ -78,7 +78,7 @@ public class WeatherForecastRedisRepositoryTest {
             eq(weatherForecastValue));
 
     verify(redisCommands, times(1)).expireat(eq(weatherForecastKey),
-            eq(DateUtils.timestamp(DateUtils.parseWeatherMapDateString(date))));
+            eq(DateUtils.timestamp(DateUtils.key(date))));
   }
 
   @Test(expected = NullPointerException.class)
@@ -126,8 +126,8 @@ public class WeatherForecastRedisRepositoryTest {
     weatherForecast.setWindDegree(windDegree);
     weatherForecast.setRainVolume(rainVolume);
     weatherForecast.setSnowVolume(snowVolume);
-    weatherForecast.setDate(DateUtils.parseWeatherMapDateString(date));
-    weatherForecast.setCreated(DateUtils.parseWeatherMapDateString(created));
+    weatherForecast.setDate(DateUtils.key(date));
+    weatherForecast.setCreated(DateUtils.key(created));
   }
 
   private void prepareWeatherForecastValue() {

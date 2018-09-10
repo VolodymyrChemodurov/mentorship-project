@@ -19,7 +19,7 @@ public final class WeatherForecastTranslator {
   public static WeatherForecast from(Forecast forecast, Coordinates coordinates) {
     WeatherForecast weatherForecast = new WeatherForecast();
     weatherForecast.setCoordinates(coordinates);
-    weatherForecast.setDate(DateUtils.parseWeatherMapDateString(forecast.getDate()));
+    weatherForecast.setDate(DateUtils.key(forecast.getDate()));
     weatherForecast.setCreated(LocalDateTime.now());
 
     MainParameters mainParameters = forecast.getMainParameters();

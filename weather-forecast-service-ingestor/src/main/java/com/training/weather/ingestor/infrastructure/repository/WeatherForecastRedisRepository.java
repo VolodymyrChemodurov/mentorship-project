@@ -10,6 +10,8 @@ import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import org.springframework.stereotype.Repository;
 
+import java.time.ZoneOffset;
+
 @Repository
 public class WeatherForecastRedisRepository implements WeatherForecastRepository {
 
@@ -32,7 +34,7 @@ public class WeatherForecastRedisRepository implements WeatherForecastRepository
     Coordinates coordinates = weatherForecast.getCoordinates();
 
     String key = DateUtils.toWeatherForecastDateString(weatherForecast.getDate());
-    long expiryTime = DateUtils.timestamp(weatherForecast.getDate());
+    long expiryTime = weatherForecast.getDate().toEpochSecond(ZoneOffset.UTC);
 
     RedisCommands commands = connection.sync();
 

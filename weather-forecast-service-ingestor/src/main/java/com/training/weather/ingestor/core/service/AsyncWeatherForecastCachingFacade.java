@@ -3,6 +3,7 @@ package com.training.weather.ingestor.core.service;
 import com.training.weather.ingestor.core.model.City;
 import com.training.weather.ingestor.core.repository.CityRepository;
 import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
+import com.training.weather.ingestor.core.utils.ConcurrentUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +52,8 @@ public class AsyncWeatherForecastCachingFacade implements WeatherForecastCaching
 
   @Override
   public void refresh() {
-    this.executeWithTimeout(() -> {
-      while (!Thread.interrupted() && !isJobCompleted) {
+    ConcurrentUtils.executeWithTimeout(() -> {
+      while (!isJobCompleted) {
         readChunk();
       }
       LOG.info("Job Completed.");
@@ -61,12 +62,8 @@ public class AsyncWeatherForecastCachingFacade implements WeatherForecastCaching
   }
 
   private void readChunk() {
-    this.executeWithTimeout(() -> {
+    ConcurrentUtils.executeWithTimeout(() -> {
       for (int i = 0; i < maxRequestsPerMinute; i++) {
-        if (Thread.interrupted()) {
-          LOG.info("ReadChunk timeout.");
-          break;
-        }
         if (!cityIterator.hasNext()) {
           isJobCompleted = true;
           LOG.info("All cities cached.");
@@ -82,21 +79,5 @@ public class AsyncWeatherForecastCachingFacade implements WeatherForecastCaching
   private void cleanupJobHistory() {
     cityIterator = cityRepository.getAll().iterator();
     isJobCompleted = false;
-  }
-
-  private void executeWithTimeout(Runnable task, long timeout) {
-    Thread thread = new Thread(task);
-
-    try {
-      thread.start();
-
-      Thread.sleep(timeout);
-
-      if (thread.isAlive()) {
-        thread.interrupt();
-      }
-    } catch (InterruptedException e) {
-      LOG.error(e.getMessage());
-    }
   }
 }

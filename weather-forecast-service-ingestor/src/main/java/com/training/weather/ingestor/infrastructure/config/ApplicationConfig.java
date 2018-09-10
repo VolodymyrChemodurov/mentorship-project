@@ -5,6 +5,8 @@ import com.training.weather.ingestor.core.repository.CityRepository;
 import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
 import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
 import com.training.weather.ingestor.core.service.AsyncWeatherForecastCachingFacade;
+import com.training.weather.ingestor.core.service.BatchedIngestionSource;
+import com.training.weather.ingestor.core.service.IngestionSource;
 import com.training.weather.ingestor.core.service.SyncWeatherForecastCachingFacade;
 import com.training.weather.ingestor.core.service.WeatherForecastCachingFacade;
 import com.training.weather.ingestor.core.service.WeatherForecastProcessor;
@@ -52,21 +54,19 @@ public class ApplicationConfig {
    *
    * @param weatherForecastDataSource WeatherDataSource.
    * @param weatherForecastProcessor  WeatherForecastProcessor.
-   * @param cityRepository            CityRepository.
-   * @param maxRequestsPerMinute      long.
+   * @param ingestionSource           IngestionSource.
    * @return SyncWeatherForecastCachingFacade.
    */
-  @Deprecated
+  @Bean
+  @Primary
   public WeatherForecastCachingFacade syncWeatherForecastCachingFacade(
           WeatherForecastDataSource weatherForecastDataSource,
           WeatherForecastProcessor weatherForecastProcessor,
-          CityRepository cityRepository,
-          @Value("${owm.minute.max.requests.number}") long maxRequestsPerMinute) {
+          IngestionSource ingestionSource) {
     return new SyncWeatherForecastCachingFacade(
             weatherForecastDataSource,
             weatherForecastProcessor,
-            cityRepository,
-            maxRequestsPerMinute);
+            ingestionSource);
   }
 
   /**
@@ -92,5 +92,10 @@ public class ApplicationConfig {
             cityRepository,
             maxRequestsPerMinute,
             cacheRefreshFrequency);
+  }
+
+  @Bean
+  public IngestionSource ingestionSource(CityRepository cityRepository) {
+    return new BatchedIngestionSource(60, cityRepository.getAll());
   }
 }

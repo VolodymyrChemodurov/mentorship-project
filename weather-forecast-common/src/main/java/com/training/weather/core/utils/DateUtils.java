@@ -16,7 +16,7 @@ public final class DateUtils {
   private DateUtils() {
   }
 
-  public static LocalDateTime parseWeatherMapDateString(String date) {
+  public static LocalDateTime key(String date) {
     return LocalDateTime.parse(date, WEATHER_MAP_DATE_FORMAT);
   }
 
