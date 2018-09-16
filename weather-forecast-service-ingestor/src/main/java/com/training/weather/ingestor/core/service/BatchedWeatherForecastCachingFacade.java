@@ -1,17 +1,13 @@
 package com.training.weather.ingestor.core.service;
 
 import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
 /**
  * Deprecated because it is synchronized.
  */
-public class SyncWeatherForecastCachingFacade implements WeatherForecastCachingFacade {
-
-  private static final Logger LOG = LoggerFactory.getLogger(SyncWeatherForecastCachingFacade.class);
+public class BatchedWeatherForecastCachingFacade implements WeatherForecastCachingFacade {
 
   private final WeatherForecastDataSource weatherForecastDataSource;
 
@@ -26,7 +22,7 @@ public class SyncWeatherForecastCachingFacade implements WeatherForecastCachingF
    * @param weatherForecastProcessor  WeatherForecastProcessorImpl
    * @param ingestionSource           IngestionSource
    */
-  public SyncWeatherForecastCachingFacade(
+  public BatchedWeatherForecastCachingFacade(
           WeatherForecastDataSource weatherForecastDataSource,
           WeatherForecastProcessor weatherForecastProcessor,
           IngestionSource ingestionSource) {
