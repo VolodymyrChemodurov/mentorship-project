@@ -1,6 +1,7 @@
 package com.training.weather.ingestor.infrastructure.service.owm;
 
 import com.training.weather.core.model.Coordinates;
+import com.training.weather.core.model.WeatherForecast;
 import com.training.weather.ingestor.infrastructure.model.owm.Clouds;
 import com.training.weather.ingestor.infrastructure.model.owm.Forecast;
 import com.training.weather.ingestor.infrastructure.model.owm.MainParameters;
@@ -11,6 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class WeatherForecastTranslatorTest {
@@ -32,7 +37,7 @@ public class WeatherForecastTranslatorTest {
   private final String date = "2018-09-02 21:00:00";
 
   private Forecast forecast;
-
+  private WeatherForecast weatherForecast;
   private Coordinates coordinates;
 
   @Before
@@ -42,31 +47,43 @@ public class WeatherForecastTranslatorTest {
 
   @Test
   public void shouldTranslate() {
-    WeatherForecastTranslator.from(forecast, coordinates);
+    WeatherForecast result = WeatherForecastTranslator.from(forecast, coordinates);
+
+    assertThat(result)
+            .usingComparatorForFields((x,y)->0, "date", "created")
+            .isEqualToComparingFieldByFieldRecursively(weatherForecast);
   }
 
   @Test
   public void shouldTranslateIfRainIsNull() {
     forecast.setRain(null);
-    WeatherForecastTranslator.from(forecast, coordinates);
+    WeatherForecast weatherForecast = WeatherForecastTranslator.from(forecast, coordinates);
+
+    assertEquals(weatherForecast.getRainVolume(),0, 5);
   }
 
   @Test
   public void shouldTranslateIfSnowIsNull() {
     forecast.setSnow(null);
-    WeatherForecastTranslator.from(forecast, coordinates);
+    WeatherForecast weatherForecast = WeatherForecastTranslator.from(forecast, coordinates);
+
+    assertEquals(weatherForecast.getSnowVolume(),0, 5);
   }
 
   @Test
   public void shouldTranslateIfCloudsIsNull() {
     forecast.setClouds(null);
-    WeatherForecastTranslator.from(forecast, coordinates);
+    WeatherForecast weatherForecast = WeatherForecastTranslator.from(forecast, coordinates);
+
+    assertEquals(weatherForecast.getCloudsVolume(),0, 5);
   }
 
   @Test
   public void shouldTranslateIfWindIsNull() {
     forecast.setWind(null);
-    WeatherForecastTranslator.from(forecast, coordinates);
+    WeatherForecast weatherForecast = WeatherForecastTranslator.from(forecast, coordinates);
+
+    assert (weatherForecast.getWindDegree() == 0) & (weatherForecast.getWindSpeed() == 0);
   }
 
   @Test(expected = NullPointerException.class)
@@ -83,6 +100,7 @@ public class WeatherForecastTranslatorTest {
   private void prepareTestData() {
     prepareForecast();
     prepareCoordinates();
+    prepareWeatherForecast();
   }
 
   private void prepareForecast() {
@@ -116,6 +134,24 @@ public class WeatherForecastTranslatorTest {
     forecast.setSnow(snow);
     forecast.setClouds(clouds);
     forecast.setDate(date);
+  }
+
+  private void prepareWeatherForecast(){
+    weatherForecast = new WeatherForecast();
+
+    weatherForecast.setCoordinates(coordinates);
+    weatherForecast.setTemperature(temperature);
+    weatherForecast.setMinTemperature(minTemperature);
+    weatherForecast.setMaxTemperature(maxTemperature);
+    weatherForecast.setPressure(pressure);
+    weatherForecast.setSeaLevelPressure(seaLevelPressure);
+    weatherForecast.setGroundLevelPressure(groundLevelPressure);
+    weatherForecast.setHumidity(humidity);
+    weatherForecast.setCloudsVolume(cloudsVolume);
+    weatherForecast.setWindSpeed(windSpeed);
+    weatherForecast.setWindDegree(windDegree);
+    weatherForecast.setRainVolume(rainVolume);
+    weatherForecast.setSnowVolume(snowVolume);
   }
 
   private void prepareCoordinates() {
