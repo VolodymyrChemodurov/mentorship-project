@@ -5,7 +5,6 @@ import com.training.weather.ingestor.core.repository.CityRepository;
 import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
 import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
 import com.training.weather.ingestor.core.service.BatchedIngestionSource;
-import com.training.weather.ingestor.core.service.BatchedWeatherForecastCachingFacade;
 import com.training.weather.ingestor.core.service.IngestionSource;
 import com.training.weather.ingestor.core.service.WeatherForecastCachingFacade;
 import com.training.weather.ingestor.core.service.WeatherForecastProcessor;
@@ -48,19 +47,19 @@ public class ApplicationConfig {
   }
 
   /**
-   * BatchedWeatherForecastCachingFacade Bean.
+   * WeatherForecastCachingFacade Bean.
    *
    * @param weatherForecastDataSource WeatherDataSource.
    * @param weatherForecastProcessor  WeatherForecastProcessor.
    * @param ingestionSource           IngestionSource.
-   * @return BatchedWeatherForecastCachingFacade.
+   * @return WeatherForecastCachingFacade.
    */
   @Bean
-  public WeatherForecastCachingFacade syncWeatherForecastCachingFacade(
+  public WeatherForecastCachingFacade weatherForecastCachingFacade(
           WeatherForecastDataSource weatherForecastDataSource,
           WeatherForecastProcessor weatherForecastProcessor,
           IngestionSource ingestionSource) {
-    return new BatchedWeatherForecastCachingFacade(
+    return new WeatherForecastCachingFacade(
             weatherForecastDataSource,
             weatherForecastProcessor,
             ingestionSource);

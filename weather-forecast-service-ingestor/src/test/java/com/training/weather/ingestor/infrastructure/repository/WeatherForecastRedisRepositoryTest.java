@@ -14,6 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -78,7 +82,7 @@ public class WeatherForecastRedisRepositoryTest {
             eq(weatherForecastValue));
 
     verify(redisCommands, times(1)).expireat(eq(weatherForecastKey),
-            eq(DateUtils.timestamp(DateUtils.key(date))));
+            eq(timestamp(date)));
   }
 
   @Test(expected = NullPointerException.class)
@@ -126,8 +130,8 @@ public class WeatherForecastRedisRepositoryTest {
     weatherForecast.setWindDegree(windDegree);
     weatherForecast.setRainVolume(rainVolume);
     weatherForecast.setSnowVolume(snowVolume);
-    weatherForecast.setDate(DateUtils.key(date));
-    weatherForecast.setCreated(DateUtils.key(created));
+    weatherForecast.setDate(parseWeatherMapDate(date));
+    weatherForecast.setCreated(parseWeatherMapDate(created));
   }
 
   private void prepareWeatherForecastValue() {
@@ -136,5 +140,14 @@ public class WeatherForecastRedisRepositoryTest {
 
   private void prepareWeatherForecastKey() {
     weatherForecastKey = key.getBytes();
+  }
+
+  private LocalDateTime parseWeatherMapDate(String time) {
+    DateTimeFormatter WEATHER_MAP_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    return LocalDateTime.parse(time, WEATHER_MAP_DATE_FORMAT);
+  }
+
+  private long timestamp(String date) {
+    return parseWeatherMapDate(date).toEpochSecond(ZoneOffset.UTC);
   }
 }

@@ -33,10 +33,10 @@ public class WeatherForecastRedisRepository implements WeatherForecastRepository
   public void save(WeatherForecast weatherForecast) {
     Coordinates coordinates = weatherForecast.getCoordinates();
 
-    String key = DateUtils.toWeatherForecastDateString(weatherForecast.getDate());
+    String key = DateUtils.key(weatherForecast.getDate());
     long expiryTime = weatherForecast.getDate().toEpochSecond(ZoneOffset.UTC);
 
-    RedisCommands commands = connection.sync();
+    RedisCommands<byte[], byte[]> commands = connection.sync();
 
     commands.geoadd(
             key.getBytes(),

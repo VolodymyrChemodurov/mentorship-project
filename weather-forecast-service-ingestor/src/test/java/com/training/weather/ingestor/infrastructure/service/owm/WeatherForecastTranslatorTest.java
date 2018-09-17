@@ -15,7 +15,6 @@ import org.junit.runners.JUnit4;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class WeatherForecastTranslatorTest {
