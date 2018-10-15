@@ -26,6 +26,8 @@ public class OpenWeatherMapForecastDataSource implements WeatherForecastDataSour
 
   private final RestTemplate restTemplate;
 
+  private final WeatherForecastTranslator weatherForecastTranslator;
+
   /**
    * @param apiScheme    Open Weather API scheme.
    * @param apiHost      Open Weather API host name.
@@ -36,11 +38,13 @@ public class OpenWeatherMapForecastDataSource implements WeatherForecastDataSour
           String apiScheme,
           String apiHost,
           String apiKey,
-          RestTemplate restTemplate) {
+          RestTemplate restTemplate,
+          WeatherForecastTranslator weatherForecastTranslator) {
     this.apiScheme = apiScheme;
     this.apiHost = apiHost;
     this.apiKey = apiKey;
     this.restTemplate = restTemplate;
+    this.weatherForecastTranslator = weatherForecastTranslator;
   }
 
   /**
@@ -61,7 +65,7 @@ public class OpenWeatherMapForecastDataSource implements WeatherForecastDataSour
       LOG.info("Successfully retrieved forecasts");
     }
 
-    if (response == null || response.getForecasts() == null) {
+    if (response.getForecasts() == null) {
       if (LOG.isInfoEnabled()) {
         LOG.info("Received empty response");
       }
@@ -70,7 +74,7 @@ public class OpenWeatherMapForecastDataSource implements WeatherForecastDataSour
     }
 
     return response.getForecasts().stream()
-            .map(forecast -> WeatherForecastTranslator.from(
+            .map(forecast -> weatherForecastTranslator.from(
                     forecast, city.getCoordinates()))
             .collect(Collectors.toList());
   }

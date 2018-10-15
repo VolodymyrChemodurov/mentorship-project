@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.training.weather.core.model.Coordinates;
 import com.training.weather.core.model.WeatherForecast;
-import com.training.weather.core.utils.DateUtils;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import org.junit.Before;

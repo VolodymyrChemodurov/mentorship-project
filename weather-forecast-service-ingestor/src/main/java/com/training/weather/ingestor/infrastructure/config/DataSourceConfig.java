@@ -3,6 +3,7 @@ package com.training.weather.ingestor.infrastructure.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
 import com.training.weather.ingestor.infrastructure.service.owm.OpenWeatherMapForecastDataSource;
+import com.training.weather.ingestor.infrastructure.service.owm.WeatherForecastTranslator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -58,11 +59,13 @@ public class DataSourceConfig {
           @Value("${owm.api.scheme}") String apiScheme,
           @Value("${owm.api.host}") String apiHost,
           @Value("${owm.api.key}") String apiKey,
-          RestTemplate restTemplate) {
+          RestTemplate restTemplate,
+          WeatherForecastTranslator weatherForecastTranslator) {
     return new OpenWeatherMapForecastDataSource(
             apiScheme,
             apiHost,
             apiKey,
-            restTemplate);
+            restTemplate,
+            weatherForecastTranslator);
   }
 }

@@ -2,6 +2,8 @@ package com.training.weather.ingestor.infrastructure.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.training.weather.ingestor.infrastructure.jackson.owm.CloudsMixIn;
 import com.training.weather.ingestor.infrastructure.jackson.owm.ForecastMixIn;
 import com.training.weather.ingestor.infrastructure.jackson.owm.MainParametersMixIn;
@@ -19,6 +21,11 @@ import com.training.weather.ingestor.infrastructure.model.owm.Wind;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 @Configuration
 public class MappingConfig {
   /**
@@ -30,7 +37,7 @@ public class MappingConfig {
   public ObjectMapper objectMapper() {
     ObjectMapper objectMapper = new ObjectMapper();
 
-    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    objectMapper.registerModule(new JavaTimeModule());
 
     objectMapper.addMixIn(Clouds.class, CloudsMixIn.class);
     objectMapper.addMixIn(Wind.class, WindMixIn.class);
@@ -40,6 +47,28 @@ public class MappingConfig {
     objectMapper.addMixIn(Forecast.class, ForecastMixIn.class);
     objectMapper.addMixIn(OpenWeatherMapResponse.class, OpenWeatherMapResponseMixIn.class);
 
+    objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     return objectMapper;
+  }
+
+  @Bean
+  public Supplier<LocalDateTime> currentDateSupplier() {
+    return LocalDateTime::now;
+  }
+
+  /**
+   * Method configuring Function for parsing OWM time string.
+   *
+   * @return Function.
+   */
+  @Bean
+  public Function<String, LocalDateTime> dateTimeSupplier() {
+    return (date) -> {
+      DateTimeFormatter weatherMapDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+      return LocalDateTime.parse(date, weatherMapDateFormat);
+    };
   }
 }

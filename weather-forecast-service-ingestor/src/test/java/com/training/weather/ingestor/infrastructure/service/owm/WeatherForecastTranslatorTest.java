@@ -11,13 +11,24 @@ import com.training.weather.ingestor.infrastructure.model.owm.Wind;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.time.LocalDateTime;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
-@RunWith(JUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(WeatherForecastTranslator.class)
 public class WeatherForecastTranslatorTest {
+
+  private static final int DELTA = 5;
 
   private final int humidity = 94;
   private final double latitude = 42.819168;
@@ -39,6 +50,21 @@ public class WeatherForecastTranslatorTest {
   private WeatherForecast weatherForecast;
   private Coordinates coordinates;
 
+  @Mock
+  private LocalDateTime currentTime;
+
+  @Mock
+  private LocalDateTime parsedTime;
+
+  @Mock
+  private Supplier<LocalDateTime> currentDateSupplier;
+
+  @Mock
+  private Function<String, LocalDateTime> owmDateParser;
+
+  @InjectMocks
+  private WeatherForecastTranslator weatherForecastTranslator;
+
   @Before
   public void setUp() {
     prepareTestData();
@@ -46,54 +72,48 @@ public class WeatherForecastTranslatorTest {
 
   @Test
   public void shouldTranslate() {
-    WeatherForecast result = WeatherForecastTranslator.from(forecast, coordinates);
+    when(currentDateSupplier.get()).thenReturn(currentTime);
+    when(owmDateParser.apply(date)).thenReturn(parsedTime);
 
-    assertThat(result)
-            .usingComparatorForFields((x,y)->0, "date", "created")
-            .isEqualToComparingFieldByFieldRecursively(weatherForecast);
+    WeatherForecast result = weatherForecastTranslator.from(forecast, coordinates);
+
+    assertThat(result).isEqualToComparingFieldByFieldRecursively(weatherForecast);
   }
 
   @Test
   public void shouldTranslateIfRainIsNull() {
     forecast.setRain(null);
-    WeatherForecast weatherForecast = WeatherForecastTranslator.from(forecast, coordinates);
 
-    assertEquals(weatherForecast.getRainVolume(),0, 5);
+    WeatherForecast weatherForecast = weatherForecastTranslator.from(forecast, coordinates);
+
+    assertEquals(weatherForecast.getRainVolume(), 0, DELTA);
   }
 
   @Test
   public void shouldTranslateIfSnowIsNull() {
     forecast.setSnow(null);
-    WeatherForecast weatherForecast = WeatherForecastTranslator.from(forecast, coordinates);
 
-    assertEquals(weatherForecast.getSnowVolume(),0, 5);
+    WeatherForecast weatherForecast = weatherForecastTranslator.from(forecast, coordinates);
+
+    assertEquals(weatherForecast.getSnowVolume(), 0, DELTA);
   }
 
   @Test
   public void shouldTranslateIfCloudsIsNull() {
     forecast.setClouds(null);
-    WeatherForecast weatherForecast = WeatherForecastTranslator.from(forecast, coordinates);
 
-    assertEquals(weatherForecast.getCloudsVolume(),0, 5);
+    WeatherForecast weatherForecast = weatherForecastTranslator.from(forecast, coordinates);
+
+    assertEquals(weatherForecast.getCloudsVolume(), 0, DELTA);
   }
 
   @Test
   public void shouldTranslateIfWindIsNull() {
     forecast.setWind(null);
-    WeatherForecast weatherForecast = WeatherForecastTranslator.from(forecast, coordinates);
+
+    WeatherForecast weatherForecast = weatherForecastTranslator.from(forecast, coordinates);
 
     assert (weatherForecast.getWindDegree() == 0) & (weatherForecast.getWindSpeed() == 0);
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void shouldThrowNullPointerExceptionIfForecastIsNull() {
-    WeatherForecastTranslator.from(null, coordinates);
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void shouldThrowNullPointerExceptionIfMainParametersIsNull() {
-    forecast.setMainParameters(null);
-    WeatherForecastTranslator.from(forecast, null);
   }
 
   private void prepareTestData() {
@@ -135,7 +155,7 @@ public class WeatherForecastTranslatorTest {
     forecast.setDate(date);
   }
 
-  private void prepareWeatherForecast(){
+  private void prepareWeatherForecast() {
     weatherForecast = new WeatherForecast();
 
     weatherForecast.setCoordinates(coordinates);
@@ -151,6 +171,8 @@ public class WeatherForecastTranslatorTest {
     weatherForecast.setWindDegree(windDegree);
     weatherForecast.setRainVolume(rainVolume);
     weatherForecast.setSnowVolume(snowVolume);
+    weatherForecast.setCreated(currentTime);
+    weatherForecast.setDate(parsedTime);
   }
 
   private void prepareCoordinates() {

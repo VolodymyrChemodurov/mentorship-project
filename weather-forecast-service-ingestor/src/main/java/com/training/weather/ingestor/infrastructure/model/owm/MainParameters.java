@@ -21,13 +21,14 @@ public class MainParameters implements Serializable {
 
   /**
    * Constructor.
-   * @param temperature Double
-   * @param minTemperature Double
-   * @param maxTemperature Double
-   * @param pressure Double
-   * @param seaLevelPressure Double
+   *
+   * @param temperature         Double
+   * @param minTemperature      Double
+   * @param maxTemperature      Double
+   * @param pressure            Double
+   * @param seaLevelPressure    Double
    * @param groundLevelPressure Double
-   * @param humidity Integer
+   * @param humidity            Integer
    */
   public MainParameters(Double temperature,
                         Double minTemperature,

@@ -4,29 +4,33 @@ import com.training.weather.core.model.Coordinates;
 import com.training.weather.core.model.WeatherForecast;
 import com.training.weather.ingestor.infrastructure.model.owm.Forecast;
 import com.training.weather.ingestor.infrastructure.model.owm.MainParameters;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-public final class WeatherForecastTranslator {
+@Component
+public class WeatherForecastTranslator {
 
-  private static final DateTimeFormatter WEATHER_MAP_DATE_FORMAT;
+  private final Supplier<LocalDateTime> currentDateSupplier;
 
-  static {
-    WEATHER_MAP_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-  }
+  private final Function<String, LocalDateTime> owmDateParser;
 
-  private WeatherForecastTranslator() {
+  public WeatherForecastTranslator(Supplier<LocalDateTime> currentDateSupplier,
+                                   Function<String, LocalDateTime> owmDateParser) {
+    this.currentDateSupplier = currentDateSupplier;
+    this.owmDateParser = owmDateParser;
   }
 
   /**
    * Translates Forecast and Coordinates into WeatherForecast.
    */
-  public static WeatherForecast from(Forecast forecast, Coordinates coordinates) {
+  public WeatherForecast from(Forecast forecast, Coordinates coordinates) {
     WeatherForecast weatherForecast = new WeatherForecast();
     weatherForecast.setCoordinates(coordinates);
-    weatherForecast.setDate(LocalDateTime.parse(forecast.getDate(), WEATHER_MAP_DATE_FORMAT));
-    weatherForecast.setCreated(LocalDateTime.now());
+    weatherForecast.setDate(owmDateParser.apply(forecast.getDate()));
+    weatherForecast.setCreated(currentDateSupplier.get());
 
     MainParameters mainParameters = forecast.getMainParameters();
     weatherForecast.setGroundLevelPressure(mainParameters.getGroundLevelPressure());

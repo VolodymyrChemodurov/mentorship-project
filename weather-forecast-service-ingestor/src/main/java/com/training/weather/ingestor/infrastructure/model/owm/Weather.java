@@ -1,4 +1,3 @@
-
 package com.training.weather.ingestor.infrastructure.model.owm;
 
 import java.io.Serializable;
@@ -19,10 +18,11 @@ public class Weather implements Serializable {
 
   /**
    * Constructor.
-   * @param id Integer
-   * @param main String
+   *
+   * @param id          Integer
+   * @param main        String
    * @param description String
-   * @param icon String
+   * @param icon        String
    */
   public Weather(Integer id, String main, String description, String icon) {
     this.id = id;

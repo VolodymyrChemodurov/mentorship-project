@@ -13,7 +13,7 @@ public class BatchedIngestionSourceTest {
   @Test
   public void testNextBatchSizeIsBiggerThanCitiesCount() {
     IngestionSource target =
-        new BatchedIngestionSource(10, generateCities(6));
+            new BatchedIngestionSource(10, generateCities(6));
 
     List<City> result = target.get();
 
@@ -23,7 +23,7 @@ public class BatchedIngestionSourceTest {
   @Test
   public void testNextBatchSizeIsLessThanCitiesCount() {
     IngestionSource target =
-        new BatchedIngestionSource(5, generateCities(10));
+            new BatchedIngestionSource(5, generateCities(10));
 
     List<City> result = target.get();
 
@@ -33,7 +33,7 @@ public class BatchedIngestionSourceTest {
   @Test
   public void testNextBatchSizeIsEqualToCitiesCount() {
     IngestionSource target =
-        new BatchedIngestionSource(5, generateCities(5));
+            new BatchedIngestionSource(5, generateCities(5));
 
     List<City> result = target.get();
 
@@ -43,7 +43,7 @@ public class BatchedIngestionSourceTest {
   @Test
   public void testNextNoCitiesReturnedWhenAllCitiesWereRetrieved() {
     IngestionSource target =
-        new BatchedIngestionSource(5, generateCities(10));
+            new BatchedIngestionSource(5, generateCities(10));
 
     target.get();
     target.get();
@@ -55,7 +55,7 @@ public class BatchedIngestionSourceTest {
   @Test
   public void testNextNumberOfCitiesIsNotDividableByBatchSize() {
     IngestionSource target =
-        new BatchedIngestionSource(5, generateCities(12));
+            new BatchedIngestionSource(5, generateCities(12));
 
     target.get();
     target.get();
@@ -67,7 +67,7 @@ public class BatchedIngestionSourceTest {
   @Test
   public void testResetWhenAllCitiesWereRetrieved() {
     IngestionSource target =
-        new BatchedIngestionSource(5, generateCities(10));
+            new BatchedIngestionSource(5, generateCities(10));
 
     List<City> firstResult = target.get();
     target.get();
@@ -80,7 +80,7 @@ public class BatchedIngestionSourceTest {
   @Test
   public void testResetWhenAllCitiesAreNotYetRetrieved() {
     IngestionSource target =
-        new BatchedIngestionSource(5, generateCities(10));
+            new BatchedIngestionSource(5, generateCities(10));
 
     List<City> firstResult = target.get();
     target.reset();
@@ -91,7 +91,7 @@ public class BatchedIngestionSourceTest {
 
   private List<City> generateCities(int size) {
     return IntStream.range(0, size)
-        .mapToObj(i -> new City())
-        .collect(Collectors.toList());
+            .mapToObj(i -> new City())
+            .collect(Collectors.toList());
   }
 }
