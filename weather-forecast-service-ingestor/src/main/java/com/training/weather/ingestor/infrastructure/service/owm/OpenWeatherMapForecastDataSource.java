@@ -1,8 +1,8 @@
 package com.training.weather.ingestor.infrastructure.service.owm;
 
+import com.training.weather.core.model.Coordinates;
+import com.training.weather.core.model.WeatherForecast;
 import com.training.weather.ingestor.core.model.City;
-import com.training.weather.ingestor.core.model.Coordinates;
-import com.training.weather.ingestor.core.model.WeatherForecast;
 import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
 import com.training.weather.ingestor.infrastructure.model.owm.OpenWeatherMapResponse;
 import org.slf4j.Logger;
@@ -26,6 +26,8 @@ public class OpenWeatherMapForecastDataSource implements WeatherForecastDataSour
 
   private final RestTemplate restTemplate;
 
+  private final WeatherForecastTranslator weatherForecastTranslator;
+
   /**
    * @param apiScheme    Open Weather API scheme.
    * @param apiHost      Open Weather API host name.
@@ -36,11 +38,13 @@ public class OpenWeatherMapForecastDataSource implements WeatherForecastDataSour
           String apiScheme,
           String apiHost,
           String apiKey,
-          RestTemplate restTemplate) {
+          RestTemplate restTemplate,
+          WeatherForecastTranslator weatherForecastTranslator) {
     this.apiScheme = apiScheme;
     this.apiHost = apiHost;
     this.apiKey = apiKey;
     this.restTemplate = restTemplate;
+    this.weatherForecastTranslator = weatherForecastTranslator;
   }
 
   /**
@@ -54,14 +58,14 @@ public class OpenWeatherMapForecastDataSource implements WeatherForecastDataSour
     }
 
     OpenWeatherMapResponse response = restTemplate
-        .getForEntity(uri(coordinates), OpenWeatherMapResponse.class)
-        .getBody();
+            .getForEntity(uri(coordinates), OpenWeatherMapResponse.class)
+            .getBody();
 
     if (LOG.isInfoEnabled()) {
       LOG.info("Successfully retrieved forecasts");
     }
 
-    if (response == null || response.getForecasts() == null) {
+    if (response.getForecasts() == null) {
       if (LOG.isInfoEnabled()) {
         LOG.info("Received empty response");
       }
@@ -70,9 +74,9 @@ public class OpenWeatherMapForecastDataSource implements WeatherForecastDataSour
     }
 
     return response.getForecasts().stream()
-        .map(forecast -> WeatherForecastTranslator.from(
-            forecast, city.getCoordinates()))
-        .collect(Collectors.toList());
+            .map(forecast -> weatherForecastTranslator.from(
+                    forecast, city.getCoordinates()))
+            .collect(Collectors.toList());
   }
 
   private URI uri(Coordinates coordinates) {
@@ -80,7 +84,7 @@ public class OpenWeatherMapForecastDataSource implements WeatherForecastDataSour
             .scheme(apiScheme)
             .host(apiHost)
             .path("/data/2.5/forecast")
-            .query("lat={latitude}&lon={longitude}&appid={apiKey}")
+            .query("lat={latitude}&lon={longitude}&appid={apiKey}&units=metric")
             .buildAndExpand(
                     coordinates.getLatitude(),
                     coordinates.getLongitude(),

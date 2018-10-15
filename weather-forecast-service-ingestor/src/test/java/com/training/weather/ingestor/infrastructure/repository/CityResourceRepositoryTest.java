@@ -21,7 +21,7 @@ public class CityResourceRepositoryTest {
   @Test
   public void testGetAllExpectedNumberOfCities() {
     CityResourceRepository target =
-        new CityResourceRepository("/two_test_cities.json", resourceLoader);
+            new CityResourceRepository("/two_test_cities.json", resourceLoader);
 
     List<City> result = target.getAll();
 
@@ -31,7 +31,7 @@ public class CityResourceRepositoryTest {
   @Test
   public void testGetAllCityFieldsMapped() {
     CityResourceRepository target =
-        new CityResourceRepository("/one_test_city.json", resourceLoader);
+            new CityResourceRepository("/one_test_city.json", resourceLoader);
 
     List<City> result = target.getAll();
 

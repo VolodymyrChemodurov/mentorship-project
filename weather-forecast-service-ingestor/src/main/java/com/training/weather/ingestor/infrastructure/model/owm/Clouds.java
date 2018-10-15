@@ -1,4 +1,3 @@
-
 package com.training.weather.ingestor.infrastructure.model.owm;
 
 import java.io.Serializable;

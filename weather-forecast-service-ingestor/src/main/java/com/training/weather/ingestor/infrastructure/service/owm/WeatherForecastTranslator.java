@@ -1,21 +1,36 @@
 package com.training.weather.ingestor.infrastructure.service.owm;
 
-import com.training.weather.ingestor.core.model.Coordinates;
-import com.training.weather.ingestor.core.model.WeatherForecast;
+import com.training.weather.core.model.Coordinates;
+import com.training.weather.core.model.WeatherForecast;
 import com.training.weather.ingestor.infrastructure.model.owm.Forecast;
 import com.training.weather.ingestor.infrastructure.model.owm.MainParameters;
+import org.springframework.stereotype.Component;
 
-public final class WeatherForecastTranslator {
+import java.time.LocalDateTime;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-  private WeatherForecastTranslator() {}
+@Component
+public class WeatherForecastTranslator {
+
+  private final Supplier<LocalDateTime> currentDateSupplier;
+
+  private final Function<String, LocalDateTime> owmDateParser;
+
+  public WeatherForecastTranslator(Supplier<LocalDateTime> currentDateSupplier,
+                                   Function<String, LocalDateTime> owmDateParser) {
+    this.currentDateSupplier = currentDateSupplier;
+    this.owmDateParser = owmDateParser;
+  }
 
   /**
    * Translates Forecast and Coordinates into WeatherForecast.
    */
-  public static WeatherForecast from(Forecast forecast, Coordinates coordinates) {
+  public WeatherForecast from(Forecast forecast, Coordinates coordinates) {
     WeatherForecast weatherForecast = new WeatherForecast();
     weatherForecast.setCoordinates(coordinates);
-    weatherForecast.setDate(forecast.getDate());
+    weatherForecast.setDate(owmDateParser.apply(forecast.getDate()));
+    weatherForecast.setCreated(currentDateSupplier.get());
 
     MainParameters mainParameters = forecast.getMainParameters();
     weatherForecast.setGroundLevelPressure(mainParameters.getGroundLevelPressure());
@@ -45,5 +60,4 @@ public final class WeatherForecastTranslator {
 
     return weatherForecast;
   }
-
 }

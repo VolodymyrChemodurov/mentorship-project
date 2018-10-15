@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.training.weather.ingestor.core.repository.CityRepository;
 import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
 import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
+import com.training.weather.ingestor.core.service.BatchedIngestionSource;
+import com.training.weather.ingestor.core.service.IngestionSource;
 import com.training.weather.ingestor.core.service.WeatherForecastCachingFacade;
 import com.training.weather.ingestor.core.service.WeatherForecastProcessor;
 import com.training.weather.ingestor.infrastructure.repository.CityResourceRepository;
@@ -40,25 +42,31 @@ public class ApplicationConfig {
 
   @Bean
   public WeatherForecastProcessor weatherForecastProcessor(
-      WeatherForecastRepository repository) {
+          WeatherForecastRepository repository) {
     return new WeatherForecastProcessor(repository);
   }
 
   /**
    * WeatherForecastCachingFacade Bean.
+   *
    * @param weatherForecastDataSource WeatherDataSource.
-   * @param weatherForecastProcessor WeatherForecastProcessor.
-   * @param cityRepository CityRepository.
+   * @param weatherForecastProcessor  WeatherForecastProcessor.
+   * @param ingestionSource           IngestionSource.
    * @return WeatherForecastCachingFacade.
    */
   @Bean
   public WeatherForecastCachingFacade weatherForecastCachingFacade(
           WeatherForecastDataSource weatherForecastDataSource,
           WeatherForecastProcessor weatherForecastProcessor,
-          CityRepository cityRepository) {
+          IngestionSource ingestionSource) {
     return new WeatherForecastCachingFacade(
-        weatherForecastDataSource,
-        weatherForecastProcessor,
-        cityRepository);
+            weatherForecastDataSource,
+            weatherForecastProcessor,
+            ingestionSource);
+  }
+
+  @Bean
+  public IngestionSource ingestionSource(CityRepository cityRepository) {
+    return new BatchedIngestionSource(60, cityRepository.getAll());
   }
 }

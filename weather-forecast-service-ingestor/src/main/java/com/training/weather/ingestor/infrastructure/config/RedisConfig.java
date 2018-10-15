@@ -12,7 +12,7 @@ public class RedisConfig {
 
   @Bean
   public StatefulRedisConnection<byte[], byte[]> statefulRedisConnection(
-      @Value("${redis.connection.string}") String connectionString) {
+          @Value("${redis.connection.string}") String connectionString) {
     return RedisClient.create(connectionString).connect(new ByteArrayCodec());
   }
 }

@@ -1,5 +1,6 @@
-
 package com.training.weather.ingestor.core.model;
+
+import com.training.weather.core.model.Coordinates;
 
 public class City {
 
@@ -16,9 +17,10 @@ public class City {
 
   /**
    * Constructor for {@link City}.
-   * @param name String
+   *
+   * @param name        String
    * @param coordinates Coordinates
-   * @param country String
+   * @param country     String
    */
   public City(String name, Coordinates coordinates, String country) {
     this.name = name;
