@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.training.weather.ingestor.core.repository.CityRepository;
 import com.training.weather.ingestor.core.repository.WeatherForecastDataSource;
 import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
+import com.training.weather.ingestor.core.service.BatchedIngestionSource;
+import com.training.weather.ingestor.core.service.BatchedWeatherForecastCachingFacade;
+import com.training.weather.ingestor.core.service.IngestionSource;
 import com.training.weather.ingestor.core.service.WeatherForecastCachingFacade;
 import com.training.weather.ingestor.core.service.WeatherForecastProcessor;
 import com.training.weather.ingestor.infrastructure.repository.CityResourceRepository;
@@ -40,25 +43,31 @@ public class ApplicationConfig {
 
   @Bean
   public WeatherForecastProcessor weatherForecastProcessor(
-      WeatherForecastRepository repository) {
+          WeatherForecastRepository repository) {
     return new WeatherForecastProcessor(repository);
   }
 
   /**
-   * WeatherForecastCachingFacade Bean.
+   * BatchedWeatherForecastCachingFacade Bean.
+   *
    * @param weatherForecastDataSource WeatherDataSource.
-   * @param weatherForecastProcessor WeatherForecastProcessor.
-   * @param cityRepository CityRepository.
-   * @return WeatherForecastCachingFacade.
+   * @param weatherForecastProcessor  WeatherForecastProcessor.
+   * @param ingestionSource           IngestionSource.
+   * @return BatchedWeatherForecastCachingFacade.
    */
   @Bean
-  public WeatherForecastCachingFacade weatherForecastCachingFacade(
+  public WeatherForecastCachingFacade syncWeatherForecastCachingFacade(
           WeatherForecastDataSource weatherForecastDataSource,
           WeatherForecastProcessor weatherForecastProcessor,
-          CityRepository cityRepository) {
-    return new WeatherForecastCachingFacade(
-        weatherForecastDataSource,
-        weatherForecastProcessor,
-        cityRepository);
+          IngestionSource ingestionSource) {
+    return new BatchedWeatherForecastCachingFacade(
+            weatherForecastDataSource,
+            weatherForecastProcessor,
+            ingestionSource);
+  }
+
+  @Bean
+  public IngestionSource ingestionSource(CityRepository cityRepository) {
+    return new BatchedIngestionSource(60, cityRepository.getAll());
   }
 }

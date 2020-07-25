@@ -1,6 +1,8 @@
 
 package com.training.weather.ingestor.core.model;
 
+import com.training.weather.core.model.Coordinates;
+
 public class City {
 
   private String name;

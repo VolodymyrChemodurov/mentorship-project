@@ -36,6 +36,12 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>weather-forecast-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-parent</artifactId>
                 <version>${spring.boot.version}</version>
@@ -151,6 +157,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven.checkstyle.plugin}</version>
                 <configuration>
                     <configLocation>google_checks.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
@@ -233,20 +240,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <city.json>/cities_dev.json</city.json>
-                <redis.connection.string>redis://localhost</redis.connection.string>
-                <owm.api.scheme>http</owm.api.scheme>
-                <owm.api.host>api.openweathermap.org</owm.api.host>
-                <owm.api.key>a5b6e7041392ba7156b0d1de0e3e7923</owm.api.key>
-            </properties>
-        </profile>
-    </profiles>
 </project>

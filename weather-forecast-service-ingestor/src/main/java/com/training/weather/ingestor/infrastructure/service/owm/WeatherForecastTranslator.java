@@ -1,13 +1,17 @@
 package com.training.weather.ingestor.infrastructure.service.owm;
 
-import com.training.weather.ingestor.core.model.Coordinates;
-import com.training.weather.ingestor.core.model.WeatherForecast;
+import com.training.weather.core.model.Coordinates;
+import com.training.weather.core.model.WeatherForecast;
+import com.training.weather.core.utils.DateUtils;
 import com.training.weather.ingestor.infrastructure.model.owm.Forecast;
 import com.training.weather.ingestor.infrastructure.model.owm.MainParameters;
 
+import java.time.LocalDateTime;
+
 public final class WeatherForecastTranslator {
 
-  private WeatherForecastTranslator() {}
+  private WeatherForecastTranslator() {
+  }
 
   /**
    * Translates Forecast and Coordinates into WeatherForecast.
@@ -15,7 +19,8 @@ public final class WeatherForecastTranslator {
   public static WeatherForecast from(Forecast forecast, Coordinates coordinates) {
     WeatherForecast weatherForecast = new WeatherForecast();
     weatherForecast.setCoordinates(coordinates);
-    weatherForecast.setDate(forecast.getDate());
+    weatherForecast.setDate(DateUtils.key(forecast.getDate()));
+    weatherForecast.setCreated(LocalDateTime.now());
 
     MainParameters mainParameters = forecast.getMainParameters();
     weatherForecast.setGroundLevelPressure(mainParameters.getGroundLevelPressure());

@@ -1,6 +1,6 @@
 package com.training.weather.ingestor.core.service;
 
-import com.training.weather.ingestor.core.model.WeatherForecast;
+import com.training.weather.core.model.WeatherForecast;
 import com.training.weather.ingestor.core.repository.WeatherForecastRepository;
 
 public class WeatherForecastProcessor {
@@ -8,7 +8,7 @@ public class WeatherForecastProcessor {
   private final WeatherForecastRepository weatherForecastRepository;
 
   public WeatherForecastProcessor(
-      WeatherForecastRepository weatherForecastRepository) {
+          WeatherForecastRepository weatherForecastRepository) {
     this.weatherForecastRepository = weatherForecastRepository;
   }
 

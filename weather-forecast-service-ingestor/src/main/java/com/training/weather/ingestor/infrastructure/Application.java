@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Import;
 
 /**
  * Class which starts Spring Boot application.
+ *
  * @author Oleg_Hudyma
  */
 @SpringBootApplication
@@ -14,7 +15,12 @@ import org.springframework.context.annotation.Import;
 @SuppressWarnings("PMD.UseUtilityClass")
 public class Application {
 
+  /**
+   * Builds and runs Spring Boot Application.
+   *
+   * @param args Java command line args.
+   */
   public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
+    SpringApplication.run(Application.class);
   }
 }
